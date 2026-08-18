@@ -57,7 +57,7 @@ export default function Header() {
         )}
       >
         <div className="container-premium grid grid-cols-[1fr_auto_1fr] items-center">
-          <div className="flex items-center">
+          <div className="col-start-1 flex items-center">
             <AnimatePresence mode="wait">
               {!transparent && (
                 <motion.div
@@ -87,7 +87,7 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center justify-self-end gap-0 sm:gap-3">
+          <div className="col-start-3 flex items-center justify-self-end gap-0 sm:gap-3">
             <button
               aria-label="Search products"
               onClick={() => setSearchOpen(true)}
