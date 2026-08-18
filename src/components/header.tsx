@@ -18,6 +18,7 @@ const NAV_LINKS = [
   { href: "/about", label: "About" },
   { href: "/hair-care", label: "Hair Care" },
   { href: "/contact", label: "Contact" },
+  { href: "/landing-page", label: "Landing Page" },
 ];
 
 export default function Header() {
