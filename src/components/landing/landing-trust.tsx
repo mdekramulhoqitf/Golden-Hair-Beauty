@@ -31,11 +31,11 @@ export default function LandingTrust() {
         </Reveal>
 
         <Reveal delay={0.15} className="overflow-x-auto">
-          <h2 className="whitespace-nowrap font-serif text-lg leading-tight text-ink sm:text-3xl">
-            আস্থা ও বিশ্বাসে Goldenhair-এর অর্জনসমূহ
+          <h2 className="whitespace-nowrap font-serif text-xl leading-tight text-ink sm:text-4xl">
+            আস্থা ও বিশ্বাসে Golden Hair-এর অর্জনসমূহ
           </h2>
-          <p className="mt-5 max-w-md text-balance text-lg leading-relaxed text-ink/60 sm:text-xl">
-            সারা বাংলাদেশে হাজারো গ্রাহকের আস্থায় গড়ে ওঠা Goldenhair — প্রতিটি পণ্য
+          <p className="mt-5 max-w-md text-balance text-xl leading-relaxed text-ink/60 sm:text-2xl">
+            সারা বাংলাদেশে হাজারো গ্রাহকের আস্থায় গড়ে ওঠা Golden Hair — প্রতিটি পণ্য
             যত্নসহকারে তৈরি এবং যাচাইকৃত গ্রাহক রিভিউয়ে সমর্থিত। নিরাপদ পেমেন্ট ও
             ক্যাশ অন ডেলিভারি সুবিধায় নিশ্চিন্তে অর্ডার করুন।
           </p>

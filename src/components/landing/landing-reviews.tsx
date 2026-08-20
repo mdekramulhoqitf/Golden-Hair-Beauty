@@ -28,7 +28,7 @@ export default function LandingReviews() {
   }, [emblaApi, onSelect]);
 
   return (
-    <section className="bg-[#0f3b38] py-16 sm:py-20">
+    <section className="bg-plum py-16 sm:py-20">
       <div className="container-premium">
         <Reveal className="mb-12 text-center">
           <h2 className="text-balance text-xl font-bold text-white sm:text-2xl">

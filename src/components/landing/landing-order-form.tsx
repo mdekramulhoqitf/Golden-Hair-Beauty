@@ -141,7 +141,7 @@ export default function LandingOrderForm() {
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-10">
                 <div>
-                  <h3 className="mb-5 text-lg font-bold text-ink sm:text-xl">
+                  <h3 className="mb-5 text-lg font-bold text-[#f6a623] sm:text-xl">
                     কোন প্যাকেজটি নিতে চান সিলেক্ট করুন
                   </h3>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -259,7 +259,7 @@ export default function LandingOrderForm() {
                   </div>
 
                   <aside className="h-fit rounded-2xl bg-[#fbf3e2] p-6">
-                    <h3 className="mb-5 text-lg font-bold text-ink">অর্ডার সামারি</h3>
+                    <h3 className="mb-5 text-lg font-bold text-[#f6a623]">অর্ডার সামারি</h3>
                     <div className="flex items-center gap-3">
                       <span className="relative h-14 w-12 shrink-0 overflow-hidden rounded-lg bg-white">
                         <Image
@@ -299,7 +299,7 @@ export default function LandingOrderForm() {
                         <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-[#0f3b38]">
                           <span className="h-2 w-2 rounded-full bg-[#0f3b38]" />
                         </span>
-                        <span className="text-base font-bold text-ink">ক্যাশ অন ডেলিভারি</span>
+                        <span className="text-base font-bold text-[#f6a623]">ক্যাশ অন ডেলিভারি</span>
                       </div>
                       <p className="mt-2 text-center text-sm font-medium leading-relaxed text-ink/70">
                         পণ্য হাতে পেয়ে মূল্য পরিশোধ করবেন ইনশাআল্লাহ।
@@ -353,7 +353,7 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-2">
-      <span className="text-base font-bold text-ink/80">{label}</span>
+      <span className="text-lg font-bold text-ink/80">{label}</span>
       {textarea ? (
         <textarea
           value={value}

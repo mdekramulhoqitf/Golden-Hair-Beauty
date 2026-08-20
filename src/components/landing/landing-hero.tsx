@@ -41,7 +41,7 @@ export default function LandingHero() {
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="relative h-[340px] w-full overflow-hidden sm:h-[440px] lg:h-[520px]"
+            className="relative h-[340px] w-full overflow-hidden rounded-2xl sm:h-[440px] lg:h-[520px]"
           >
             <AnimatePresence mode="popLayout">
               <motion.div
@@ -59,7 +59,7 @@ export default function LandingHero() {
                   height={SLIDESHOW_IMAGES[activeSlide].height}
                   priority={activeSlide === 0}
                   sizes="(max-width: 640px) 90vw, 480px"
-                  className="h-full w-auto max-w-full object-contain"
+                  className="h-full w-auto max-w-full rounded-2xl object-contain"
                 />
               </motion.div>
             </AnimatePresence>
@@ -67,11 +67,11 @@ export default function LandingHero() {
         </Reveal>
 
         <Reveal delay={0.18}>
-          <p className="text-balance text-lg leading-relaxed text-[#1c1c1c]/80 sm:text-2xl">
-            Golden Hair-Hair Booster ব্যবহারে চুল পড়া বন্ধ করে, নতুন চুল গজাতে সাহায্য করে, চুল
-            হয় ঘন কালো লম্বা সিল্কি ওর সাইনি। ফিরে আসে চুলের হারিয়ে যাওয়া সৌন্দর্যের আত্মবিশ্বাস।
-            Golden Hair- এর হেয়ার বুস্টার, সালফেট ফ্রি শ্যাম্পু ও হেয়ার গ্রোথ সিরাম একসাথে
-            ব্যবহার করে ফিরে পান স্বাস্থ্যউজ্জ্বল, রেশমি মজবুত চুল।
+          <p className="w-full overflow-x-auto text-lg leading-relaxed text-[#1c1c1c]/80 sm:text-2xl">
+            <span className="block whitespace-nowrap">
+              Hair Booster- ব্যাবহারে চুল পড়া বন্ধ করে,নতুন চুল গজাতে সাহায্য করে,চুল হবে লম্বা সিল্ক ও সাইনি।
+            </span>
+            ফিরে আসবে চুলের হারিয়ে যাওয়া সৌন্দর্যের আত্নবিশ্বাস।
           </p>
         </Reveal>
 

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
+import { Barlow, Hind_Siliguri } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/cart-context";
 import { WishlistProvider } from "@/context/wishlist-context";
@@ -11,10 +11,18 @@ import CartDrawer from "@/components/cart-drawer";
 import QuickViewModal from "@/components/quick-view-modal";
 import ScrollProgress from "@/components/scroll-progress";
 
-const openSans = Open_Sans({
+const barlow = Barlow({
   subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   style: ["normal", "italic"],
-  variable: "--font-open-sans",
+  variable: "--font-barlow",
+  display: "swap",
+});
+
+const hindSiliguri = Hind_Siliguri({
+  subsets: ["bengali"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-hind-siliguri",
   display: "swap",
 });
 
@@ -69,7 +77,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={openSans.variable}>
+    <html lang="en" className={`${barlow.variable} ${hindSiliguri.variable}`}>
       <body className="min-h-screen bg-warm-white font-sans antialiased">
         <script
           type="application/ld+json"

@@ -15,8 +15,8 @@ const contactInfo = [
 
 const shopLinks = [
   { href: "/shop", label: "All Products" },
-  { href: "/product/sulfate-free-shampoo", label: "Sulfate Free Shampoo" },
   { href: "/product/hair-booster-hair-fall-solution", label: "Hair Booster" },
+  { href: "/product/sulfate-free-shampoo", label: "Sulfate Free Shampoo" },
   { href: "/product/growth-serum-scalp-nutrition", label: "Growth Serum" },
 ];
 

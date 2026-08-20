@@ -1,29 +1,17 @@
-import Link from "next/link";
+import { Phone } from "lucide-react";
 
 export default function LandingContactBar() {
   return (
-    <div className="bg-[#0f3b38] text-white">
-      <div className="container-premium flex items-center gap-2 overflow-x-auto whitespace-nowrap py-8 text-left">
-        <p className="text-sm font-semibold sm:text-base">অর্ডার/যোগাযোগ করুন</p>
+    <div className="bg-gradient-to-r from-[#0a2e2b] via-[#0f3b38] to-[#0a2e2b] text-white">
+      <div className="container-premium flex flex-col items-center gap-3 py-7 text-left sm:flex-row sm:gap-5">
+        <p className="text-base font-semibold text-white/90 sm:text-lg">অর্ডার/যোগাযোগ করুন</p>
         <a
           href="tel:+8801787478146"
-          className="btn-focus text-lg font-bold tracking-wide text-[#f6a623] transition-colors hover:text-white"
+          className="btn-focus inline-flex items-center gap-2 rounded-full bg-gold-gradient px-6 py-2.5 text-lg font-bold tracking-wide text-[#0f3b38] shadow-gold-glow transition-transform duration-300 hover:scale-105 sm:text-xl"
         >
+          <Phone size={20} strokeWidth={2.5} />
           01787 478 146
         </a>
-      </div>
-      <div className="border-t border-white/10">
-        <div className="container-premium flex flex-col items-center gap-3 py-5 text-center text-xs text-white/50 sm:flex-row sm:justify-between">
-          <p>&copy; {new Date().getFullYear()} Goldenhair. All rights reserved.</p>
-          <div className="flex items-center gap-4">
-            <Link href="/privacy-policy" className="transition-colors hover:text-white">
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className="transition-colors hover:text-white">
-              Terms &amp; Conditions
-            </Link>
-          </div>
-        </div>
       </div>
     </div>
   );

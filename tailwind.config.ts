@@ -31,9 +31,9 @@ const config: Config = {
         "warm-white": "#fdfbf7",
       },
       fontFamily: {
-        serif: ["var(--font-open-sans)", "system-ui", "sans-serif"],
-        sans: ["var(--font-open-sans)", "system-ui", "sans-serif"],
-        display: ["var(--font-open-sans)", "system-ui", "sans-serif"],
+        serif: ["var(--font-barlow)", "var(--font-hind-siliguri)", "system-ui", "sans-serif"],
+        sans: ["var(--font-barlow)", "var(--font-hind-siliguri)", "system-ui", "sans-serif"],
+        display: ["var(--font-barlow)", "var(--font-hind-siliguri)", "system-ui", "sans-serif"],
       },
       letterSpacing: {
         widest2: "0.25em",
