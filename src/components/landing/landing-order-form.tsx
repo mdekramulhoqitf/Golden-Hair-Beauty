@@ -13,21 +13,21 @@ const variants = [
     id: "standard",
     name: "Standard Version",
     volume: "200 ml",
-    price: 1650,
+    price: 1499,
     images: ["/images/products/hair-booster.png"],
   },
   {
     id: "hair-growth",
     name: "Hair Growth",
-    volume: "200 ml",
-    price: 1650,
+    volume: "100 ml",
+    price: 999,
     images: ["/images/products/hair-booster.png"],
   },
   {
     id: "trial",
     name: "Trial Version",
-    volume: "200 ml",
-    price: 1650,
+    volume: "50 ml",
+    price: 699,
     images: ["/images/products/hair-booster.png"],
   },
 ];
@@ -92,6 +92,11 @@ export default function LandingOrderForm() {
     window.setTimeout(() => {
       setSubmitting(false);
       setOrder({ fields, product: selectedProduct.name, total });
+      window.fbq?.("track", "Lead", {
+        content_name: selectedProduct.name,
+        value: total,
+        currency: "BDT",
+      });
     }, 900);
   };
 

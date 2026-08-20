@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_Bengali } from "next/font/google";
+import MetaPixel from "@/components/landing/meta-pixel";
 import FloatingContact from "@/components/landing/floating-contact";
 import LandingHero from "@/components/landing/landing-hero";
 import LandingBenefits from "@/components/landing/landing-benefits";
@@ -34,6 +35,7 @@ export const metadata: Metadata = {
 export default function LandingPage() {
   return (
     <div className={notoSansBengali.className}>
+      <MetaPixel />
       <FloatingContact />
       <LandingHero />
       <LandingBenefits />
