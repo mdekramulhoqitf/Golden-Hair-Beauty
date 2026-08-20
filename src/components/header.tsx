@@ -73,18 +73,24 @@ export default function Header() {
           </div>
 
           <nav className="hidden items-center gap-9 justify-self-center lg:flex">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "gold-underline text-sm font-medium tracking-wide transition-colors duration-300 btn-focus",
-                  transparent ? "text-cream/90 hover:text-cream" : "text-ink/80 hover:text-ink"
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const normalizedPathname =
+                pathname.length > 1 ? pathname.replace(/\/$/, "") : pathname;
+              const isActive = normalizedPathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "gold-underline text-sm font-bold tracking-wide transition-colors duration-300 btn-focus",
+                    isActive && "is-active",
+                    transparent ? "text-cream/90 hover:text-cream" : "text-black hover:text-black"
+                  )}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="col-start-3 flex items-center justify-self-end gap-0 sm:gap-3">

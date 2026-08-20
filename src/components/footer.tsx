@@ -52,12 +52,6 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1.3fr]">
           <div>
             <Logo />
-            <p className="mt-5 text-xs font-medium uppercase tracking-widest2 text-gold-400/90">
-              Hair &amp; Beauty Care
-            </p>
-            <p className="mt-3 max-w-xs font-serif text-lg italic leading-snug text-cream/85">
-              হারিয়ে যাওয়া আত্মবিশ্বাস ফিরে আসুক — Goldenhair-এর সাথে। ✨
-            </p>
 
             <ul className="mt-6 flex flex-col gap-2.5">
               {contactInfo.map((c) => (

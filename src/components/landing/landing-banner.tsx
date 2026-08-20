@@ -8,9 +8,9 @@ export default function LandingBanner() {
     <section className="bg-[#fbf3e2] pb-16 sm:pb-20">
       <div className="container-premium">
         <Reveal>
-          <div className="relative mx-auto aspect-[1717/916] w-full max-w-4xl overflow-hidden rounded-3xl shadow-xl shadow-black/10">
+          <div className="relative mx-auto aspect-[1536/1024] w-full max-w-4xl overflow-hidden rounded-3xl shadow-xl shadow-black/10">
             <Image
-              src="/images/lifestyle/banner.png"
+              src="/images/lifestyle/banner-2.png"
               alt="Goldenhair সম্পূর্ণ হেয়ার কেয়ার কালেকশন"
               fill
               sizes="(max-width: 1024px) 90vw, 896px"

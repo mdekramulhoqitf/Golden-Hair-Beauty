@@ -4,6 +4,7 @@ import FloatingContact from "@/components/landing/floating-contact";
 import LandingHero from "@/components/landing/landing-hero";
 import LandingBenefits from "@/components/landing/landing-benefits";
 import LandingHowToUse from "@/components/landing/landing-how-to-use";
+import LandingTransformation from "@/components/landing/landing-transformation";
 import LandingReviews from "@/components/landing/landing-reviews";
 import LandingTrust from "@/components/landing/landing-trust";
 import LandingOrderForm from "@/components/landing/landing-order-form";
@@ -37,6 +38,7 @@ export default function LandingPage() {
       <LandingHero />
       <LandingBenefits />
       <LandingHowToUse />
+      <LandingTransformation />
       <LandingReviews />
       <LandingTrust />
       <LandingOrderForm />

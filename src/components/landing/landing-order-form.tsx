@@ -2,12 +2,35 @@
 
 import { useMemo, useState } from "react";
 import Image from "next/image";
-import { CheckCircle2, Loader2, Minus, Plus } from "lucide-react";
-import { products } from "@/data/products";
+import { CheckCircle2, Loader2, Minus, Plus, ShoppingCart } from "lucide-react";
 import { formatPrice, cn } from "@/lib/format";
 import Reveal from "@/components/reveal";
 
 const DELIVERY_FEE = 100;
+
+const variants = [
+  {
+    id: "standard",
+    name: "Standard Version",
+    volume: "200 ml",
+    price: 1650,
+    images: ["/images/products/hair-booster.png"],
+  },
+  {
+    id: "hair-growth",
+    name: "Hair Growth",
+    volume: "200 ml",
+    price: 1650,
+    images: ["/images/products/hair-booster.png"],
+  },
+  {
+    id: "trial",
+    name: "Trial Version",
+    volume: "200 ml",
+    price: 1650,
+    images: ["/images/products/hair-booster.png"],
+  },
+];
 
 interface FormFields {
   name: string;
@@ -30,7 +53,7 @@ type Errors = Partial<Record<keyof FormFields, string>>;
 const BD_PHONE = /^01[3-9]\d{8}$/;
 
 export default function LandingOrderForm() {
-  const [productId, setProductId] = useState(products[0].id);
+  const [productId, setProductId] = useState(variants[0].id);
   const [quantity, setQuantity] = useState(1);
   const [fields, setFields] = useState<FormFields>(emptyFields);
   const [errors, setErrors] = useState<Errors>({});
@@ -39,7 +62,7 @@ export default function LandingOrderForm() {
     null
   );
 
-  const selectedProduct = products.find((p) => p.id === productId) ?? products[0];
+  const selectedProduct = variants.find((p) => p.id === productId) ?? variants[0];
   const subtotal = useMemo(() => selectedProduct.price * quantity, [selectedProduct, quantity]);
   const total = subtotal + DELIVERY_FEE;
 
@@ -84,7 +107,7 @@ export default function LandingOrderForm() {
       <div className="container-premium">
         <Reveal className="mx-auto mb-10 max-w-3xl">
           <div className="rounded-2xl bg-[#0f3b38] px-6 py-4 text-center shadow-lg shadow-black/10">
-            <h2 className="text-balance text-base font-bold text-white sm:text-lg">
+            <h2 className="text-balance text-xl font-bold text-white sm:text-2xl">
               নিচের ফর্মটি পূরণ করে অর্ডার করুন
             </h2>
           </div>
@@ -113,11 +136,11 @@ export default function LandingOrderForm() {
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-10">
                 <div>
-                  <h3 className="mb-5 text-sm font-semibold text-ink/70 sm:text-base">
+                  <h3 className="mb-5 text-lg font-bold text-ink sm:text-xl">
                     কোন প্যাকেজটি নিতে চান সিলেক্ট করুন
                   </h3>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                    {products.map((p) => (
+                    {variants.map((p) => (
                       <button
                         type="button"
                         key={p.id}
@@ -149,10 +172,10 @@ export default function LandingOrderForm() {
                           />
                         </span>
                         <span className="min-w-0 flex-1">
-                          <span className="block truncate text-sm font-medium text-ink">
+                          <span className="block truncate text-base font-bold text-ink">
                             {p.name}
                           </span>
-                          <span className="block text-xs text-ink/50">
+                          <span className="block text-sm font-semibold text-ink/60">
                             {p.volume} · {formatPrice(p.price)}
                           </span>
                         </span>
@@ -161,7 +184,7 @@ export default function LandingOrderForm() {
                   </div>
 
                   <div className="mt-5 flex items-center gap-4">
-                    <span className="text-sm font-medium text-ink/70">পরিমাণ</span>
+                    <span className="text-base font-bold text-ink">পরিমাণ</span>
                     <div className="flex items-center gap-3 rounded-full border border-ink/15 px-2 py-1.5">
                       <button
                         type="button"
@@ -171,7 +194,7 @@ export default function LandingOrderForm() {
                       >
                         <Minus size={14} />
                       </button>
-                      <span className="w-5 text-center text-sm font-medium text-ink">
+                      <span className="w-5 text-center text-base font-bold text-ink">
                         {quantity}
                       </span>
                       <button
@@ -188,7 +211,7 @@ export default function LandingOrderForm() {
 
                 <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_340px]">
                   <div className="flex flex-col gap-4">
-                    <h3 className="text-sm font-semibold text-ink/70 sm:text-base">
+                    <h3 className="text-lg font-bold text-ink sm:text-xl">
                       গ্রাহকের তথ্য
                     </h3>
                     <Field
@@ -231,7 +254,7 @@ export default function LandingOrderForm() {
                   </div>
 
                   <aside className="h-fit rounded-2xl bg-[#fbf3e2] p-6">
-                    <h3 className="mb-5 text-sm font-semibold text-ink/70">অর্ডার সামারি</h3>
+                    <h3 className="mb-5 text-lg font-bold text-ink">অর্ডার সামারি</h3>
                     <div className="flex items-center gap-3">
                       <span className="relative h-14 w-12 shrink-0 overflow-hidden rounded-lg bg-white">
                         <Image
@@ -241,35 +264,47 @@ export default function LandingOrderForm() {
                           sizes="48px"
                           className="object-contain p-1"
                         />
-                        <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#0f3b38] text-[10px] text-white">
+                        <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#0f3b38] text-xs font-bold text-white">
                           {quantity}
                         </span>
                       </span>
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm text-ink">{selectedProduct.name}</p>
-                        <p className="text-xs text-ink/45">{selectedProduct.volume}</p>
+                        <p className="truncate text-base font-bold text-ink">{selectedProduct.name}</p>
+                        <p className="text-sm font-semibold text-ink/50">{selectedProduct.volume}</p>
                       </div>
                     </div>
 
-                    <div className="mt-5 flex flex-col gap-2 border-t border-ink/10 pt-4 text-sm">
-                      <div className="flex justify-between text-ink/60">
+                    <div className="mt-5 flex flex-col gap-2 border-t border-ink/10 pt-4 text-base font-semibold">
+                      <div className="flex justify-between text-ink/70">
                         <span>সাবটোটাল</span>
                         <span>{formatPrice(subtotal)}</span>
                       </div>
-                      <div className="flex justify-between text-ink/60">
+                      <div className="flex justify-between text-ink/70">
                         <span>ডেলিভারি চার্জ</span>
                         <span>{formatPrice(DELIVERY_FEE)}</span>
                       </div>
-                      <div className="mt-2 flex justify-between border-t border-ink/10 pt-3 text-base font-bold text-ink">
+                      <div className="mt-2 flex justify-between border-t border-ink/10 pt-3 text-xl font-bold text-ink">
                         <span>সর্বমোট</span>
                         <span>{formatPrice(total)}</span>
                       </div>
                     </div>
 
+                    <div className="mt-6 rounded-2xl border-2 border-[#f6a623] bg-[#fdf0d8] p-4">
+                      <div className="flex items-center gap-2">
+                        <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-[#0f3b38]">
+                          <span className="h-2 w-2 rounded-full bg-[#0f3b38]" />
+                        </span>
+                        <span className="text-base font-bold text-ink">ক্যাশ অন ডেলিভারি</span>
+                      </div>
+                      <p className="mt-2 text-center text-sm font-medium leading-relaxed text-ink/70">
+                        পণ্য হাতে পেয়ে মূল্য পরিশোধ করবেন ইনশাআল্লাহ।
+                      </p>
+                    </div>
+
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="btn-focus mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#111813] py-4 text-sm font-semibold text-white shadow-lg shadow-black/20 transition-all duration-300 hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100"
+                      className="btn-focus mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#111813] py-4 text-lg font-bold text-white shadow-lg shadow-black/20 transition-all duration-300 hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100"
                     >
                       {submitting ? (
                         <>
@@ -277,7 +312,10 @@ export default function LandingOrderForm() {
                           প্রসেস হচ্ছে...
                         </>
                       ) : (
-                        <>অর্ডার করুন — {formatPrice(total)}</>
+                        <>
+                          অর্ডার করুন — {formatPrice(total)}
+                          <ShoppingCart size={18} strokeWidth={2} />
+                        </>
                       )}
                     </button>
                   </aside>
@@ -310,7 +348,7 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-2">
-      <span className="text-xs font-medium text-ink/60">{label}</span>
+      <span className="text-base font-bold text-ink/80">{label}</span>
       {textarea ? (
         <textarea
           value={value}
@@ -318,7 +356,7 @@ function Field({
           placeholder={placeholder}
           rows={2}
           className={cn(
-            "btn-focus resize-none rounded-xl border bg-white px-4 py-3 text-sm text-ink placeholder:text-ink/30",
+            "btn-focus resize-none rounded-xl border bg-white px-4 py-3 text-base font-medium text-ink placeholder:text-ink/30",
             error ? "border-red-400" : "border-ink/15 focus:border-[#0f3b38]"
           )}
         />
@@ -329,12 +367,12 @@ function Field({
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           className={cn(
-            "btn-focus rounded-xl border bg-white px-4 py-3 text-sm text-ink placeholder:text-ink/30",
+            "btn-focus rounded-xl border bg-white px-4 py-3 text-base font-medium text-ink placeholder:text-ink/30",
             error ? "border-red-400" : "border-ink/15 focus:border-[#0f3b38]"
           )}
         />
       )}
-      {error && <span className="text-xs text-red-500">{error}</span>}
+      {error && <span className="text-sm font-semibold text-red-500">{error}</span>}
     </label>
   );
 }

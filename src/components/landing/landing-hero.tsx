@@ -1,18 +1,36 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ShoppingCart } from "lucide-react";
+import { useEffect, useState } from "react";
 import Reveal from "@/components/reveal";
 
+const SLIDESHOW_IMAGES = [
+  { src: "/images/item/hair_boster/hair booster (1).png", width: 1023, height: 1537 },
+  { src: "/images/item/hair_boster/hair booster (2).png", width: 1023, height: 1537 },
+  { src: "/images/item/hair_boster/hair booster (3).png", width: 1023, height: 1537 },
+  { src: "/images/item/hair_boster/hair booster (4).png", width: 1122, height: 1402 },
+  { src: "/images/item/hair_boster/hair booster (5).png", width: 1023, height: 1537 },
+];
+
 export default function LandingHero() {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % SLIDESHOW_IMAGES.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section className="bg-[#fbf3e2] px-4 pb-10 pt-28 sm:pt-32">
       <div className="mx-auto flex max-w-xl flex-col items-center gap-5 text-center">
         <Reveal>
-          <div className="w-full rounded-2xl bg-[#0f3b38] px-5 py-4 shadow-lg shadow-black/10">
-            <h1 className="text-balance text-lg font-bold leading-snug text-white sm:text-2xl">
-              চুল পড়া ও খুশকি রোধের সায়েন্টিফিক সমাধান
+          <div className="w-full overflow-x-auto rounded-2xl bg-[#0f3b38] px-5 py-4 shadow-lg shadow-black/10">
+            <h1 className="whitespace-nowrap text-[13px] font-bold leading-snug text-white sm:text-2xl">
+              Hair Booster এর ছোঁয়ায় চুলের হারানো সৌন্দর্য ফিরে পেয়েছে হাজারো মানুষ।
             </h1>
           </div>
         </Reveal>
@@ -23,30 +41,37 @@ export default function LandingHero() {
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="relative aspect-[1717/916] w-full overflow-hidden rounded-2xl bg-gradient-to-b from-[#eef6d8] to-[#c7e08f] shadow-xl shadow-black/10"
+            className="relative h-[340px] w-full overflow-hidden sm:h-[440px] lg:h-[520px]"
           >
-            <Image
-              src="/images/lifestyle/banner.png"
-              alt="Goldenhair সালফেট ফ্রি শ্যাম্পু, হেয়ার বুস্টার ও গ্রোথ সিরাম"
-              fill
-              priority
-              sizes="(max-width: 640px) 100vw, 576px"
-              className="object-contain p-3"
-            />
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                key={activeSlide}
+                initial={{ x: 80, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -80, opacity: 0 }}
+                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute inset-0 flex items-center justify-center"
+              >
+                <Image
+                  src={SLIDESHOW_IMAGES[activeSlide].src}
+                  alt="Goldenhair সালফেট ফ্রি শ্যাম্পু, হেয়ার বুস্টার ও গ্রোথ সিরাম"
+                  width={SLIDESHOW_IMAGES[activeSlide].width}
+                  height={SLIDESHOW_IMAGES[activeSlide].height}
+                  priority={activeSlide === 0}
+                  sizes="(max-width: 640px) 90vw, 480px"
+                  className="h-full w-auto max-w-full object-contain"
+                />
+              </motion.div>
+            </AnimatePresence>
           </motion.div>
         </Reveal>
 
         <Reveal delay={0.18}>
-          <p className="text-balance text-sm leading-relaxed text-[#1c1c1c]/80 sm:text-base">
-            বাজারের সাধারণ শ্যাম্পু ব্যবহারে চুলের গোড়া দুর্বল হয়ে পড়ে, ফলে বাড়ে চুল পড়া ও
-            খুশকির সমস্যা। Goldenhair-এর সালফেট ফ্রি শ্যাম্পু, হেয়ার বুস্টার ও গ্রোথ সিরাম
-            একসাথে ব্যবহার করে ফিরে পান স্বাস্থ্যোজ্জ্বল, মজবুত চুল।
-          </p>
-        </Reveal>
-
-        <Reveal delay={0.24}>
-          <p className="text-sm font-semibold text-red-600 sm:text-base">
-            স্টক সীমিত! আজই অর্ডার করে পান বিশেষ ছাড়।
+          <p className="text-balance text-lg leading-relaxed text-[#1c1c1c]/80 sm:text-2xl">
+            Golden Hair-Hair Booster ব্যবহারে চুল পড়া বন্ধ করে, নতুন চুল গজাতে সাহায্য করে, চুল
+            হয় ঘন কালো লম্বা সিল্কি ওর সাইনি। ফিরে আসে চুলের হারিয়ে যাওয়া সৌন্দর্যের আত্মবিশ্বাস।
+            Golden Hair- এর হেয়ার বুস্টার, সালফেট ফ্রি শ্যাম্পু ও হেয়ার গ্রোথ সিরাম একসাথে
+            ব্যবহার করে ফিরে পান স্বাস্থ্যউজ্জ্বল, রেশমি মজবুত চুল।
           </p>
         </Reveal>
 
