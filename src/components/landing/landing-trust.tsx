@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Award, BadgeCheck, Leaf, ShieldCheck } from "lucide-react";
 import Reveal from "@/components/reveal";
 
@@ -8,6 +9,13 @@ const badges = [
   { icon: ShieldCheck, label: "নিরাপদ ফর্মুলেশন" },
   { icon: BadgeCheck, label: "যাচাইকৃত কাস্টমার রিভিউ" },
   { icon: Award, label: "ক্যাশ অন ডেলিভারি সুবিধা" },
+];
+
+const certifiedImages = [
+  "/images/certified/ChatGPT Image Aug 21, 2026, 09_52_09 PM.png",
+  "/images/certified/ChatGPT Image Aug 21, 2026, 10_21_14 PM.png",
+  "/images/certified/ChatGPT Image Aug 21, 2026, 10_36_39 AM.png",
+  "/images/certified/ChatGPT Image Aug 21, 2026, 11_04_25 AM.png",
 ];
 
 export default function LandingTrust() {
@@ -25,6 +33,19 @@ export default function LandingTrust() {
                 <span className="text-sm font-medium leading-snug text-ink/70 sm:text-base">
                   {b.label}
                 </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 grid grid-cols-4 gap-3 sm:gap-5">
+            {certifiedImages.map((src) => (
+              <div
+                key={src}
+                className="flex aspect-square items-center justify-center rounded-full border border-ink/10 bg-white p-3 shadow-sm"
+              >
+                <div className="relative h-full w-full">
+                  <Image src={src} alt="সার্টিফিকেশন" fill sizes="80px" className="object-contain" />
+                </div>
               </div>
             ))}
           </div>
