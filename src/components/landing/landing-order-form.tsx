@@ -7,6 +7,7 @@ import { formatPrice, cn } from "@/lib/format";
 import Reveal from "@/components/reveal";
 import { fetchLandingPackages, type LandingPackage } from "@/data/landing-content";
 import fallbackPackages from "@/data/store/landing-packages.json";
+import { getSupabaseClient } from "@/lib/supabase";
 
 const DELIVERY_FEE = 100;
 
@@ -44,6 +45,7 @@ export default function LandingOrderForm() {
   const [fields, setFields] = useState<FormFields>(emptyFields);
   const [errors, setErrors] = useState<Errors>({});
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [order, setOrder] = useState<{ fields: FormFields; product: string; total: number } | null>(
     null
   );
@@ -68,28 +70,52 @@ export default function LandingOrderForm() {
     return next;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const next = validate();
     setErrors(next);
     if (Object.keys(next).length > 0) return;
 
+    setSubmitError("");
     setSubmitting(true);
-    window.setTimeout(() => {
-      setSubmitting(false);
-      setOrder({ fields, product: selectedProduct.name, total });
-      window.fbq?.("track", "Lead", {
-        content_name: selectedProduct.name,
-        value: total,
-        currency: "BDT",
+
+    const supabase = getSupabaseClient();
+    if (supabase) {
+      const { error } = await supabase.from("orders").insert({
+        package_id: selectedProduct.id,
+        package_name: selectedProduct.name,
+        quantity,
+        unit_price: selectedProduct.price,
+        subtotal,
+        delivery_fee: DELIVERY_FEE,
+        total,
+        customer_name: fields.name.trim(),
+        customer_phone: fields.phone.trim(),
+        customer_address: fields.address.trim(),
+        customer_district: fields.district.trim(),
+        notes: fields.notes.trim() || null,
       });
-    }, 900);
+      if (error) {
+        setSubmitting(false);
+        setSubmitError("দুঃখিত, অর্ডার সাবমিট করতে সমস্যা হয়েছে। আবার চেষ্টা করুন অথবা ফোনে যোগাযোগ করুন।");
+        return;
+      }
+    }
+
+    setSubmitting(false);
+    setOrder({ fields, product: selectedProduct.name, total });
+    window.fbq?.("track", "Lead", {
+      content_name: selectedProduct.name,
+      value: total,
+      currency: "BDT",
+    });
   };
 
   const handleReset = () => {
     setOrder(null);
     setFields(emptyFields);
     setErrors({});
+    setSubmitError("");
     setQuantity(1);
   };
 
@@ -314,6 +340,9 @@ export default function LandingOrderForm() {
                         </>
                       )}
                     </button>
+                    {submitError && (
+                      <p className="mt-3 text-center text-sm font-semibold text-red-600">{submitError}</p>
+                    )}
                   </aside>
                 </div>
               </form>

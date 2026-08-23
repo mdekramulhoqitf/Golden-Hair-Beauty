@@ -69,3 +69,41 @@ create policy "authenticated update landing-media" on storage.objects
 drop policy if exists "authenticated delete landing-media" on storage.objects;
 create policy "authenticated delete landing-media" on storage.objects
   for delete to authenticated using (bucket_id = 'landing-media');
+
+-- Orders placed through the landing page order form.
+create table if not exists public.orders (
+  id uuid primary key default gen_random_uuid(),
+  package_id text,
+  package_name text not null,
+  quantity int not null default 1,
+  unit_price numeric not null default 0,
+  subtotal numeric not null default 0,
+  delivery_fee numeric not null default 0,
+  total numeric not null default 0,
+  customer_name text not null,
+  customer_phone text not null,
+  customer_address text,
+  customer_district text,
+  notes text,
+  status text not null default 'pending' check (status in ('pending', 'processing', 'delivered', 'cancelled')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.orders enable row level security;
+
+drop policy if exists "public create orders" on public.orders;
+create policy "public create orders" on public.orders
+  for insert to public with check (true);
+
+drop policy if exists "admin read orders" on public.orders;
+create policy "admin read orders" on public.orders
+  for select to authenticated using (true);
+
+drop policy if exists "admin update orders" on public.orders;
+create policy "admin update orders" on public.orders
+  for update to authenticated using (true) with check (true);
+
+drop policy if exists "admin delete orders" on public.orders;
+create policy "admin delete orders" on public.orders
+  for delete to authenticated using (true);

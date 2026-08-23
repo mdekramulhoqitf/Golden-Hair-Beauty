@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Globe, Instagram, MapPin, MessageCircle, Phone, Send } from "lucide-react";
 import Logo from "@/components/logo";
@@ -35,6 +36,7 @@ const aboutLinks = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
   const [email, setEmail] = useState("");
   const { push } = useToast();
 
@@ -44,6 +46,8 @@ export default function Footer() {
     push("Welcome to Goldenhair — check your inbox.", "cart");
     setEmail("");
   };
+
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <footer className="relative overflow-hidden bg-plum-gradient text-cream">

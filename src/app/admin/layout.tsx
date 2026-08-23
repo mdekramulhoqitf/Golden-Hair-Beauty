@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AdminGate from "@/components/admin/admin-gate";
 
 export const metadata: Metadata = {
   title: "Admin — Goldenhair",
@@ -6,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return <AdminGate>{children}</AdminGate>;
 }

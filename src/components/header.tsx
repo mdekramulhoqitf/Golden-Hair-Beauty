@@ -46,6 +46,8 @@ export default function Header() {
     };
   }, [mobileOpen]);
 
+  if (pathname?.startsWith("/admin")) return null;
+
   return (
     <>
       <header
