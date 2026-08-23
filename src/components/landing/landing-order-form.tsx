@@ -1,36 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { CheckCircle2, Loader2, Minus, Plus, ShoppingCart } from "lucide-react";
 import { formatPrice, cn } from "@/lib/format";
 import Reveal from "@/components/reveal";
+import { fetchLandingPackages, type LandingPackage } from "@/data/landing-content";
+import fallbackPackages from "@/data/store/landing-packages.json";
 
 const DELIVERY_FEE = 100;
-
-const variants = [
-  {
-    id: "standard",
-    name: "Standard Version",
-    volume: "200 ml",
-    price: 1499,
-    images: ["/images/products/hair-booster.png"],
-  },
-  {
-    id: "hair-growth",
-    name: "Hair Growth",
-    volume: "100 ml",
-    price: 999,
-    images: ["/images/products/hair-booster.png"],
-  },
-  {
-    id: "trial",
-    name: "Trial Version",
-    volume: "50 ml",
-    price: 699,
-    images: ["/images/products/hair-booster.png"],
-  },
-];
 
 interface FormFields {
   name: string;
@@ -53,8 +31,16 @@ type Errors = Partial<Record<keyof FormFields, string>>;
 const BD_PHONE = /^01[3-9]\d{8}$/;
 
 export default function LandingOrderForm() {
+  const [variants, setVariants] = useState<LandingPackage[]>(fallbackPackages as LandingPackage[]);
   const [productId, setProductId] = useState(variants[0].id);
   const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    fetchLandingPackages().then((data) => {
+      setVariants(data);
+      setProductId((current) => (data.some((p) => p.id === current) ? current : data[0].id));
+    });
+  }, []);
   const [fields, setFields] = useState<FormFields>(emptyFields);
   const [errors, setErrors] = useState<Errors>({});
   const [submitting, setSubmitting] = useState(false);
@@ -182,6 +168,11 @@ export default function LandingOrderForm() {
                           </span>
                           <span className="block text-sm font-semibold text-ink/60">
                             {p.volume} · {formatPrice(p.price)}
+                            {p.oldPrice ? (
+                              <span className="ml-1.5 text-ink/35 line-through">
+                                {formatPrice(p.oldPrice)}
+                              </span>
+                            ) : null}
                           </span>
                         </span>
                       </button>
@@ -216,7 +207,7 @@ export default function LandingOrderForm() {
 
                 <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_340px]">
                   <div className="flex flex-col gap-4">
-                    <h3 className="text-lg font-bold text-ink sm:text-xl">
+                    <h3 className="text-lg font-bold text-[#f6a623] sm:text-xl">
                       গ্রাহকের তথ্য
                     </h3>
                     <Field
@@ -299,9 +290,9 @@ export default function LandingOrderForm() {
                         <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-[#0f3b38]">
                           <span className="h-2 w-2 rounded-full bg-[#0f3b38]" />
                         </span>
-                        <span className="text-base font-bold text-[#f6a623]">ক্যাশ অন ডেলিভারি</span>
+                        <span className="text-xl font-bold text-[#f6a623]">ক্যাশ অন ডেলিভারি</span>
                       </div>
-                      <p className="mt-2 text-center text-sm font-medium leading-relaxed text-ink/70">
+                      <p className="mt-2 text-center text-lg font-medium leading-relaxed text-ink/70">
                         পণ্য হাতে পেয়ে মূল্য পরিশোধ করবেন ইনশাআল্লাহ।
                       </p>
                     </div>

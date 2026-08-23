@@ -21,7 +21,7 @@ export default function LandingTrust() {
                 key={b.label}
                 className="flex flex-col items-center gap-4 rounded-2xl border border-ink/10 bg-white p-7 text-center shadow-sm sm:p-8"
               >
-                <b.icon size={40} className="text-[#0f3b38]" strokeWidth={1.5} />
+                <b.icon size={40} className="text-green-600" strokeWidth={1.5} />
                 <span className="text-sm font-medium leading-snug text-ink/70 sm:text-base">
                   {b.label}
                 </span>
@@ -34,7 +34,7 @@ export default function LandingTrust() {
           <h2 className="whitespace-nowrap font-serif text-xl leading-tight text-ink sm:text-4xl">
             আস্থা ও বিশ্বাসে Golden Hair-এর অর্জনসমূহ
           </h2>
-          <p className="mt-5 max-w-md text-balance text-xl leading-relaxed text-ink/60 sm:text-2xl">
+          <p className="mt-5 max-w-[36rem] text-xl leading-relaxed text-ink/60 sm:text-2xl">
             সারা বাংলাদেশে হাজারো গ্রাহকের আস্থায় গড়ে ওঠা Golden Hair — প্রতিটি পণ্য
             যত্নসহকারে তৈরি এবং যাচাইকৃত গ্রাহক রিভিউয়ে সমর্থিত। নিরাপদ পেমেন্ট ও
             ক্যাশ অন ডেলিভারি সুবিধায় নিশ্চিন্তে অর্ডার করুন।

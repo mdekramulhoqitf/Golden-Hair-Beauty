@@ -35,27 +35,27 @@ export default function FloatingContact() {
         <a
           href={PHONE_LINK}
           aria-label="Call Goldenhair"
-          className="btn-focus flex h-14 w-14 items-center justify-center rounded-full bg-[#e5493f] text-white shadow-lg shadow-black/20 transition-transform duration-300 hover:scale-110"
+          className="btn-focus flex h-12 w-12 items-center justify-center rounded-full bg-[#e5493f] text-white shadow-lg shadow-black/20 transition-transform duration-300 hover:scale-110"
         >
-          <Phone size={22} strokeWidth={2} fill="currentColor" />
+          <Phone size={18} strokeWidth={2} fill="currentColor" />
         </a>
         <a
           href={MESSENGER_LINK}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Message on Messenger"
-          className="btn-focus flex h-14 w-14 items-center justify-center rounded-full bg-[#0084ff] text-white shadow-lg shadow-black/20 transition-transform duration-300 hover:scale-110"
+          className="btn-focus flex h-12 w-12 items-center justify-center rounded-full bg-[#0084ff] text-white shadow-lg shadow-black/20 transition-transform duration-300 hover:scale-110"
         >
-          <MessengerIcon size={26} />
+          <MessengerIcon size={21} />
         </a>
         <a
           href={WHATSAPP_LINK}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Message on WhatsApp"
-          className="btn-focus flex h-14 w-14 items-center justify-center rounded-full bg-[#25d366] text-white shadow-lg shadow-black/20 transition-transform duration-300 hover:scale-110"
+          className="btn-focus flex h-12 w-12 items-center justify-center rounded-full bg-[#25d366] text-white shadow-lg shadow-black/20 transition-transform duration-300 hover:scale-110"
         >
-          <WhatsAppIcon size={26} />
+          <WhatsAppIcon size={21} />
         </a>
       </div>
 
@@ -71,25 +71,25 @@ export default function FloatingContact() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Message on WhatsApp"
-          className="btn-focus flex h-14 w-14 items-center justify-center rounded-full bg-[#25d366] text-white shadow-lg shadow-black/25 transition-transform duration-300 hover:scale-110"
+          className="btn-focus flex h-12 w-12 items-center justify-center rounded-full bg-[#25d366] text-white shadow-lg shadow-black/25 transition-transform duration-300 hover:scale-110"
         >
-          <WhatsAppIcon size={26} />
+          <WhatsAppIcon size={21} />
         </a>
         <a
           href={MESSENGER_LINK}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Message on Messenger"
-          className="btn-focus flex h-14 w-14 items-center justify-center rounded-full bg-[#0084ff] text-white shadow-lg shadow-black/25 transition-transform duration-300 hover:scale-110"
+          className="btn-focus flex h-12 w-12 items-center justify-center rounded-full bg-[#0084ff] text-white shadow-lg shadow-black/25 transition-transform duration-300 hover:scale-110"
         >
-          <MessengerIcon size={26} />
+          <MessengerIcon size={21} />
         </a>
         <a
           href={PHONE_LINK}
           aria-label="Call Goldenhair"
-          className="btn-focus flex h-14 w-14 items-center justify-center rounded-full bg-[#e5493f] text-white shadow-lg shadow-black/25 transition-transform duration-300 hover:scale-110"
+          className="btn-focus flex h-12 w-12 items-center justify-center rounded-full bg-[#e5493f] text-white shadow-lg shadow-black/25 transition-transform duration-300 hover:scale-110"
         >
-          <Phone size={22} strokeWidth={2} fill="currentColor" />
+          <Phone size={18} strokeWidth={2} fill="currentColor" />
         </a>
       </div>
     </>

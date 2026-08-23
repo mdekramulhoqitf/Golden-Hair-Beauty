@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ShoppingCart } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Reveal from "@/components/reveal";
 
 const SLIDESHOW_IMAGES = [
@@ -14,19 +14,44 @@ const SLIDESHOW_IMAGES = [
   { src: "/images/item/hair_boster/hair booster (5).png", width: 1023, height: 1537 },
 ];
 
+const CLONE_COUNT = 2;
+const LOOP_IMAGES = [
+  ...SLIDESHOW_IMAGES.slice(-CLONE_COUNT),
+  ...SLIDESHOW_IMAGES,
+  ...SLIDESHOW_IMAGES.slice(0, CLONE_COUNT),
+];
+const START_STEP = CLONE_COUNT;
+const RESET_STEP = CLONE_COUNT + SLIDESHOW_IMAGES.length - 1;
+
 export default function LandingHero() {
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [step, setStep] = useState(START_STEP);
+  const instantRef = useRef(false);
+  const instant = instantRef.current;
+
+  useEffect(() => {
+    instantRef.current = false;
+  }, [step]);
+
+  useEffect(() => {
+    if (step === RESET_STEP) {
+      const t = setTimeout(() => {
+        instantRef.current = true;
+        setStep(step - SLIDESHOW_IMAGES.length);
+      }, 1450);
+      return () => clearTimeout(t);
+    }
+  }, [step]);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % SLIDESHOW_IMAGES.length);
+      setStep((prev) => prev + 1);
     }, 3000);
     return () => clearInterval(timer);
   }, []);
 
   return (
     <section className="bg-[#fbf3e2] px-4 pb-10 pt-28 sm:pt-32">
-      <div className="mx-auto flex max-w-xl flex-col items-center gap-5 text-center">
+      <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 text-center">
         <Reveal>
           <div className="w-full overflow-x-auto rounded-2xl bg-[#0f3b38] px-5 py-4 shadow-lg shadow-black/10">
             <h1 className="whitespace-nowrap text-[13px] font-bold leading-snug text-white sm:text-2xl">
@@ -41,28 +66,37 @@ export default function LandingHero() {
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="relative h-[340px] w-full overflow-hidden rounded-2xl sm:h-[440px] lg:h-[520px]"
+            className="w-full overflow-hidden"
+            style={{
+              maskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
+            }}
           >
-            <AnimatePresence mode="popLayout">
-              <motion.div
-                key={activeSlide}
-                initial={{ x: 80, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -80, opacity: 0 }}
-                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute inset-0 flex items-center justify-center"
-              >
-                <Image
-                  src={SLIDESHOW_IMAGES[activeSlide].src}
-                  alt="Goldenhair সালফেট ফ্রি শ্যাম্পু, হেয়ার বুস্টার ও গ্রোথ সিরাম"
-                  width={SLIDESHOW_IMAGES[activeSlide].width}
-                  height={SLIDESHOW_IMAGES[activeSlide].height}
-                  priority={activeSlide === 0}
-                  sizes="(max-width: 640px) 90vw, 480px"
-                  className="h-full w-auto max-w-full rounded-2xl object-contain"
-                />
-              </motion.div>
-            </AnimatePresence>
+            <motion.div
+              animate={{ x: `-${step * (100 / LOOP_IMAGES.length)}%` }}
+              transition={instant ? { duration: 0 } : { duration: 1.4, ease: "linear" }}
+              className="flex"
+              style={{ width: `${(LOOP_IMAGES.length / 3) * 100}%` }}
+            >
+              {LOOP_IMAGES.map((image, i) => (
+                <div
+                  key={i}
+                  className="px-1.5"
+                  style={{ width: `${100 / LOOP_IMAGES.length}%` }}
+                >
+                  <div className="relative aspect-[9/16] w-full overflow-hidden rounded-2xl">
+                    <Image
+                      src={image.src}
+                      alt="Goldenhair সালফেট ফ্রি শ্যাম্পু, হেয়ার বুস্টার ও গ্রোথ সিরাম"
+                      fill
+                      priority={i === START_STEP}
+                      sizes="(max-width: 640px) 33vw, 200px"
+                      className="rounded-2xl object-cover"
+                    />
+                  </div>
+                </div>
+              ))}
+            </motion.div>
           </motion.div>
         </Reveal>
 

@@ -1,0 +1,221 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { getSupabaseClient } from "@/lib/supabase";
+
+interface ReviewRow {
+  id: string;
+  name: string;
+  location: string;
+  rating: number;
+  verified: boolean;
+  review: string | null;
+  media_type: "none" | "image" | "video";
+  media_url: string | null;
+  sort_order: number;
+}
+
+export default function ReviewsPanel() {
+  const [rows, setRows] = useState<ReviewRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState<{ id: string; text: string; error?: boolean } | null>(null);
+  const supabase = getSupabaseClient();
+
+  useEffect(() => {
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function load() {
+    if (!supabase) return;
+    setLoading(true);
+    const { data } = await supabase.from("landing_reviews").select("*").order("sort_order");
+    setRows((data as ReviewRow[]) ?? []);
+    setLoading(false);
+  }
+
+  function updateLocal(id: string, patch: Partial<ReviewRow>) {
+    setRows((prev) => prev.map((r) => (r.id === id ? { ...r, ...patch } : r)));
+  }
+
+  async function saveRow(row: ReviewRow) {
+    if (!supabase) return;
+    setStatus({ id: row.id, text: "সেভ হচ্ছে..." });
+    const { error } = await supabase
+      .from("landing_reviews")
+      .update({
+        name: row.name,
+        location: row.location,
+        rating: row.rating,
+        verified: row.verified,
+        review: row.review,
+        media_type: row.media_type,
+        media_url: row.media_url,
+      })
+      .eq("id", row.id);
+    setStatus({ id: row.id, text: error ? error.message : "সেভ হয়েছে ✓", error: Boolean(error) });
+  }
+
+  async function deleteRow(id: string) {
+    if (!supabase) return;
+    if (!confirm("এই রিভিউটি মুছে ফেলবেন?")) return;
+    await supabase.from("landing_reviews").delete().eq("id", id);
+    setRows((prev) => prev.filter((r) => r.id !== id));
+  }
+
+  async function addRow() {
+    if (!supabase) return;
+    const { data, error } = await supabase
+      .from("landing_reviews")
+      .insert({
+        name: "নতুন গ্রাহক",
+        location: "",
+        rating: 5,
+        verified: true,
+        review: "",
+        media_type: "none",
+        sort_order: rows.length,
+      })
+      .select()
+      .single();
+    if (!error && data) setRows((prev) => [...prev, data as ReviewRow]);
+  }
+
+  async function uploadMedia(row: ReviewRow, file: File) {
+    if (!supabase) return;
+    setStatus({ id: row.id, text: "আপলোড হচ্ছে..." });
+    const path = `reviews/${row.id}-${Date.now()}-${file.name}`;
+    const { error: uploadError } = await supabase.storage.from("landing-media").upload(path, file, {
+      upsert: true,
+    });
+    if (uploadError) {
+      setStatus({ id: row.id, text: uploadError.message, error: true });
+      return;
+    }
+    const { data } = supabase.storage.from("landing-media").getPublicUrl(path);
+    updateLocal(row.id, { media_url: data.publicUrl });
+    await supabase.from("landing_reviews").update({ media_url: data.publicUrl }).eq("id", row.id);
+    setStatus({ id: row.id, text: "মিডিয়া আপলোড হয়েছে ✓" });
+  }
+
+  if (loading) return <p className="text-ink/60">লোড হচ্ছে...</p>;
+
+  return (
+    <div className="flex flex-col gap-4">
+      {rows.map((row) => (
+        <div key={row.id} className="grid gap-3 rounded-xl bg-white p-5 shadow-sm sm:grid-cols-2">
+          <Field label="নাম">
+            <input
+              className="admin-input"
+              value={row.name}
+              onChange={(e) => updateLocal(row.id, { name: e.target.value })}
+            />
+          </Field>
+          <Field label="এলাকা">
+            <input
+              className="admin-input"
+              value={row.location}
+              onChange={(e) => updateLocal(row.id, { location: e.target.value })}
+            />
+          </Field>
+          <Field label="রেটিং (১-৫)">
+            <input
+              type="number"
+              min={1}
+              max={5}
+              className="admin-input"
+              value={row.rating}
+              onChange={(e) => updateLocal(row.id, { rating: Number(e.target.value) })}
+            />
+          </Field>
+          <label className="flex items-center gap-2 text-sm font-semibold text-ink/70">
+            <input
+              type="checkbox"
+              checked={row.verified}
+              onChange={(e) => updateLocal(row.id, { verified: e.target.checked })}
+            />
+            যাচাইকৃত ক্রেতা
+          </label>
+
+          <div className="sm:col-span-2">
+            <Field label="রিভিউ লেখা">
+              <textarea
+                className="admin-input min-h-20"
+                value={row.review ?? ""}
+                onChange={(e) => updateLocal(row.id, { review: e.target.value })}
+              />
+            </Field>
+          </div>
+
+          <Field label="মিডিয়া টাইপ">
+            <select
+              className="admin-input"
+              value={row.media_type}
+              onChange={(e) => updateLocal(row.id, { media_type: e.target.value as ReviewRow["media_type"] })}
+            >
+              <option value="none">শুধু লেখা</option>
+              <option value="image">ছবি</option>
+              <option value="video">ভিডিও</option>
+            </select>
+          </Field>
+
+          {row.media_type !== "none" && (
+            <div className="flex items-center gap-4">
+              {row.media_url ? (
+                row.media_type === "video" ? (
+                  <video src={row.media_url} className="h-16 w-16 rounded-lg object-cover" muted />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={row.media_url} alt="" className="h-16 w-16 rounded-lg object-cover" />
+                )
+              ) : (
+                <div className="h-16 w-16 rounded-lg bg-ink/5" />
+              )}
+              <label className="cursor-pointer rounded-lg border border-ink/20 px-3 py-2 text-sm font-semibold text-ink/70">
+                আপলোড করুন
+                <input
+                  type="file"
+                  accept={row.media_type === "video" ? "video/*" : "image/*"}
+                  hidden
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) uploadMedia(row, file);
+                  }}
+                />
+              </label>
+            </div>
+          )}
+
+          <div className="sm:col-span-2 flex items-center justify-between">
+            <div className="flex gap-2">
+              <button onClick={() => saveRow(row)} className="admin-btn-primary">
+                সেভ করুন
+              </button>
+              <button onClick={() => deleteRow(row.id)} className="admin-btn-danger">
+                মুছে ফেলুন
+              </button>
+            </div>
+            {status?.id === row.id && (
+              <span className={status.error ? "text-sm text-red-600" : "text-sm text-green-700"}>
+                {status.text}
+              </span>
+            )}
+          </div>
+        </div>
+      ))}
+
+      <button onClick={addRow} className="admin-btn-secondary w-fit">
+        + নতুন রিভিউ
+      </button>
+    </div>
+  );
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="flex flex-col gap-1 text-xs font-semibold text-ink/60">
+      {label}
+      {children}
+    </label>
+  );
+}

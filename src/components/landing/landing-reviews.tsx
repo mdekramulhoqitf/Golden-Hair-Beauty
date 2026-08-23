@@ -4,16 +4,22 @@ import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight, BadgeCheck, Play, Star } from "lucide-react";
-import { landingTestimonials as testimonials } from "@/data/landing-testimonials";
+import { fetchLandingReviews, type LandingReview } from "@/data/landing-content";
+import fallbackReviews from "@/data/store/landing-reviews.json";
 import Reveal from "@/components/reveal";
 
 export default function LandingReviews() {
+  const [testimonials, setTestimonials] = useState<LandingReview[]>(fallbackReviews as LandingReview[]);
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
     dragFree: true,
     containScroll: "trimSnaps",
   });
   const [selected, setSelected] = useState(0);
+
+  useEffect(() => {
+    fetchLandingReviews().then(setTestimonials);
+  }, []);
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -27,11 +33,15 @@ export default function LandingReviews() {
     emblaApi.on("reInit", onSelect);
   }, [emblaApi, onSelect]);
 
+  useEffect(() => {
+    emblaApi?.reInit();
+  }, [emblaApi, testimonials]);
+
   return (
     <section className="bg-plum py-16 sm:py-20">
       <div className="container-premium">
         <Reveal className="mb-12 text-center">
-          <h2 className="text-balance text-xl font-bold text-white sm:text-2xl">
+          <h2 className="text-balance text-3xl font-bold text-white sm:text-4xl">
             ⭐ ⭐ ⭐ কাস্টমার রিভিউ ⭐ ⭐ ⭐
           </h2>
         </Reveal>

@@ -17,7 +17,7 @@ const shopLinks = [
   { href: "/shop", label: "All Products" },
   { href: "/product/hair-booster-hair-fall-solution", label: "Hair Booster" },
   { href: "/product/sulfate-free-shampoo", label: "Sulfate Free Shampoo" },
-  { href: "/product/growth-serum-scalp-nutrition", label: "Growth Serum" },
+  { href: "/product/growth-serum-scalp-nutrition", label: "Hair Growth Serum" },
 ];
 
 const careLinks = [

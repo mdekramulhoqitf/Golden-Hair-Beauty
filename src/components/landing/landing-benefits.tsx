@@ -16,27 +16,29 @@ export default function LandingBenefits() {
   return (
     <section className="bg-[#0f3b38] py-16 sm:py-20">
       <div className="container-premium">
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="grid grid-cols-1 items-stretch gap-10 lg:grid-cols-2 lg:gap-16">
           <Reveal>
-            <div>
-              <h2 className="mb-6 w-full overflow-hidden whitespace-nowrap text-3xl font-bold text-white sm:text-4xl">
-                Hair Booster-ব্যবহারের উপকারিতা:
-              </h2>
-              <ul className="flex flex-col gap-6">
-                {benefits.map((b, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f6a623] text-[#0f3b38]">
-                      <Check size={18} strokeWidth={3} />
-                    </span>
-                    <span className="text-xl leading-relaxed text-white/85 sm:text-2xl">
-                      {b}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+            <div className="flex h-full flex-col justify-between">
+              <div>
+                <h2 className="mb-6 w-full overflow-hidden whitespace-nowrap text-3xl font-bold text-white sm:text-4xl">
+                  Hair Booster-ব্যবহারের উপকারিতা:
+                </h2>
+                <ul className="flex flex-col gap-6">
+                  {benefits.map((b, i) => (
+                    <li key={i} className="flex items-center gap-3">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f6a623] text-[#0f3b38]">
+                        <Check size={18} strokeWidth={3} />
+                      </span>
+                      <span className="text-xl leading-relaxed text-white/85 sm:text-2xl">
+                        {b}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
               <a
                 href="#order"
-                className="btn-focus mt-8 inline-flex items-center gap-2 rounded-full bg-gold-gradient px-8 py-4 text-sm font-semibold text-[#0f3b38] shadow-gold-glow transition-transform duration-300 hover:scale-[1.03] sm:text-base"
+                className="btn-focus mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-gold-gradient px-8 py-4 text-sm font-semibold text-[#0f3b38] shadow-gold-glow transition-transform duration-300 hover:scale-[1.03] sm:text-base"
               >
                 অর্ডার করুন
                 <ShoppingCart size={18} strokeWidth={2} />

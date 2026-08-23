@@ -20,7 +20,7 @@ export default function LandingTransformation() {
       <div className="container-premium">
         <Reveal>
           <h2 className="text-balance text-3xl font-bold leading-snug text-white sm:text-4xl lg:text-5xl">
-            <span className="text-gold-300">Hair Booster</span> ব্যবহারের পর আপনার পরিবর্তন সমূহ:
+            <span className="text-[#f6a623]">Hair Booster</span> ব্যবহারের পর আপনার পরিবর্তন সমূহ:
           </h2>
         </Reveal>
 
@@ -29,8 +29,8 @@ export default function LandingTransformation() {
             <div>
               <ul className="flex flex-col gap-6">
                 {changes.map((c, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f6a623] text-[#0f3b38]">
+                  <li key={i} className="flex items-center gap-3">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f6a623] text-[#0f3b38]">
                       <Check size={18} strokeWidth={3} />
                     </span>
                     <span className="text-lg leading-relaxed text-white/85 sm:text-xl">
@@ -49,8 +49,8 @@ export default function LandingTransformation() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.15}>
-            <div className="relative aspect-[1122/1402] w-full max-w-sm overflow-hidden rounded-2xl shadow-xl shadow-black/30 lg:ml-auto">
+          <Reveal delay={0.15} className="lg:-mt-16">
+            <div className="relative aspect-[2/3] w-full max-w-[360px] overflow-hidden rounded-2xl shadow-xl shadow-black/30 lg:ml-auto">
               <Image
                 src="/images/item/hair_boster/hair booster (4).png"
                 alt="Golden Hair Booster ব্যবহারের পর পরিবর্তন"

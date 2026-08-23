@@ -1,0 +1,26 @@
+[
+  {
+    "id": "standard",
+    "name": "Standard Version",
+    "volume": "200 ml",
+    "price": 1499,
+    "oldPrice": null,
+    "images": ["/images/products/hair-booster.png"]
+  },
+  {
+    "id": "hair-growth",
+    "name": "Hair Growth",
+    "volume": "100 ml",
+    "price": 999,
+    "oldPrice": null,
+    "images": ["/images/products/hair-booster.png"]
+  },
+  {
+    "id": "trial",
+    "name": "Trial Version",
+    "volume": "50 ml",
+    "price": 699,
+    "oldPrice": null,
+    "images": ["/images/products/hair-booster.png"]
+  }
+]
