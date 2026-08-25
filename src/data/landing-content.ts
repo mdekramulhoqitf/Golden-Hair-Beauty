@@ -9,6 +9,7 @@ export interface LandingPackage {
   price: number;
   oldPrice?: number | null;
   images: string[];
+  available: boolean;
 }
 
 export interface LandingReview {
@@ -33,6 +34,7 @@ interface RawPackageRow {
   old_price: number | null;
   image_url: string | null;
   sort_order: number;
+  available: boolean;
 }
 
 export async function fetchLandingPackages(): Promise<LandingPackage[]> {
@@ -41,7 +43,7 @@ export async function fetchLandingPackages(): Promise<LandingPackage[]> {
 
   const { data, error } = await supabase
     .from("landing_packages")
-    .select("id, name, volume, price, old_price, image_url, sort_order")
+    .select("id, name, volume, price, old_price, image_url, sort_order, available")
     .order("sort_order", { ascending: true });
 
   if (error || !data || data.length === 0) {
@@ -56,6 +58,7 @@ export async function fetchLandingPackages(): Promise<LandingPackage[]> {
     price: Number(row.price),
     oldPrice: row.old_price != null ? Number(row.old_price) : null,
     images: row.image_url ? [row.image_url] : [],
+    available: row.available,
   }));
 }
 

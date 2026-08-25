@@ -10,6 +10,7 @@ import LandingReviews from "@/components/landing/landing-reviews";
 import LandingTrust from "@/components/landing/landing-trust";
 import LandingOrderForm from "@/components/landing/landing-order-form";
 import LandingContactBar from "@/components/landing/landing-contact-bar";
+import LandingCopyright from "@/components/landing/landing-copyright";
 
 const notoSansBengali = Noto_Sans_Bengali({
   subsets: ["bengali", "latin"],
@@ -44,6 +45,7 @@ export default function LandingPage() {
       <LandingTrust />
       <LandingOrderForm />
       <LandingContactBar />
+      <LandingCopyright />
     </div>
   );
 }

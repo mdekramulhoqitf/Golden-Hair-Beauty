@@ -11,6 +11,7 @@ interface PackageRow {
   old_price: number | null;
   image_url: string | null;
   sort_order: number;
+  available: boolean;
 }
 
 export default function PackagesPanel() {
@@ -47,6 +48,7 @@ export default function PackagesPanel() {
         price: row.price,
         old_price: row.old_price,
         image_url: row.image_url,
+        available: row.available,
       })
       .eq("id", row.id);
     setStatus({ id: row.id, text: error ? error.message : "সেভ হয়েছে ✓", error: Boolean(error) });
@@ -70,6 +72,7 @@ export default function PackagesPanel() {
       old_price: null,
       image_url: null,
       sort_order: rows.length,
+      available: true,
     };
     const { error } = await supabase.from("landing_packages").insert(newRow);
     if (!error) setRows((prev) => [...prev, newRow]);
@@ -130,6 +133,15 @@ export default function PackagesPanel() {
               }
             />
           </Field>
+
+          <label className="flex items-center gap-2 text-sm font-semibold text-ink/70">
+            <input
+              type="checkbox"
+              checked={row.available}
+              onChange={(e) => updateLocal(row.id, { available: e.target.checked })}
+            />
+            পণ্যটি বর্তমানে অর্ডারযোগ্য (আনচেক করলে &ldquo;স্টকে নেই&rdquo; দেখাবে)
+          </label>
 
           <div className="sm:col-span-2 flex items-center gap-4">
             {row.image_url ? (

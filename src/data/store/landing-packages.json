@@ -5,7 +5,8 @@
     "volume": "200 ml",
     "price": 1499,
     "oldPrice": null,
-    "images": ["/images/products/hair-booster.png"]
+    "images": ["/images/products/hair-booster.png"],
+    "available": true
   },
   {
     "id": "hair-growth",
@@ -13,7 +14,8 @@
     "volume": "100 ml",
     "price": 999,
     "oldPrice": null,
-    "images": ["/images/products/hair-booster.png"]
+    "images": ["/images/products/hair-booster.png"],
+    "available": true
   },
   {
     "id": "trial",
@@ -21,6 +23,7 @@
     "volume": "50 ml",
     "price": 699,
     "oldPrice": null,
-    "images": ["/images/products/hair-booster.png"]
+    "images": ["/images/products/hair-booster.png"],
+    "available": true
   }
 ]

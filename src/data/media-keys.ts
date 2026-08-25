@@ -8,6 +8,13 @@ export interface MediaKeyDef {
 
 export const MEDIA_KEYS: MediaKeyDef[] = [
   {
+    key: "delivery_fee",
+    label: "ডেলিভারি চার্জ (৳, ০ দিলে ফ্রি দেখাবে)",
+    section: "Order Settings",
+    type: "text",
+    fallback: "100",
+  },
+  {
     key: "hero_headline",
     label: "হেডলাইন",
     section: "Hero",

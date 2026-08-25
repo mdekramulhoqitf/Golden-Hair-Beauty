@@ -41,8 +41,17 @@ export default function LandingTrust() {
               </div>
             ))}
           </div>
+        </Reveal>
 
-          <div className="mt-6 grid grid-cols-4 gap-3 sm:gap-5">
+        <Reveal delay={0.15} className="self-start lg:mt-8">
+          <h2 className="text-balance font-serif text-xl leading-tight text-ink sm:text-4xl">
+            {media.trust_heading}
+          </h2>
+          <p className="mt-5 max-w-[36rem] text-xl leading-relaxed text-ink/60 sm:text-2xl">
+            {media.trust_paragraph}
+          </p>
+
+          <div className="mt-6 grid max-w-[36rem] grid-cols-4 gap-3 sm:gap-5">
             {CERTIFIED_KEYS.map((key) => (
               <div key={key} className="relative aspect-square w-full">
                 <Image
@@ -55,15 +64,6 @@ export default function LandingTrust() {
               </div>
             ))}
           </div>
-        </Reveal>
-
-        <Reveal delay={0.15} className="self-start overflow-x-auto lg:mt-14">
-          <h2 className="whitespace-nowrap font-serif text-xl leading-tight text-ink sm:text-4xl">
-            {media.trust_heading}
-          </h2>
-          <p className="mt-5 max-w-[36rem] text-xl leading-relaxed text-ink/60 sm:text-2xl">
-            {media.trust_paragraph}
-          </p>
         </Reveal>
       </div>
     </section>

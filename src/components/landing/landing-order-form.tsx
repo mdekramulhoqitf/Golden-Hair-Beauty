@@ -8,8 +8,10 @@ import Reveal from "@/components/reveal";
 import { fetchLandingPackages, type LandingPackage } from "@/data/landing-content";
 import fallbackPackages from "@/data/store/landing-packages.json";
 import { getSupabaseClient } from "@/lib/supabase";
+import { fetchSiteMedia } from "@/data/site-media";
+import { MEDIA_KEYS } from "@/data/media-keys";
 
-const DELIVERY_FEE = 100;
+const FALLBACK_DELIVERY_FEE = Number(MEDIA_KEYS.find((k) => k.key === "delivery_fee")!.fallback);
 
 interface FormFields {
   name: string;
@@ -33,13 +35,24 @@ const BD_PHONE = /^01[3-9]\d{8}$/;
 
 export default function LandingOrderForm() {
   const [variants, setVariants] = useState<LandingPackage[]>(fallbackPackages as LandingPackage[]);
-  const [productId, setProductId] = useState(variants[0].id);
+  const [productId, setProductId] = useState(
+    variants.find((p) => p.available)?.id ?? variants[0].id
+  );
   const [quantity, setQuantity] = useState(1);
+  const [deliveryFee, setDeliveryFee] = useState(FALLBACK_DELIVERY_FEE);
 
   useEffect(() => {
     fetchLandingPackages().then((data) => {
       setVariants(data);
-      setProductId((current) => (data.some((p) => p.id === current) ? current : data[0].id));
+      setProductId((current) => {
+        const currentStillGood = data.find((p) => p.id === current && p.available);
+        if (currentStillGood) return current;
+        return data.find((p) => p.available)?.id ?? data[0].id;
+      });
+    });
+    fetchSiteMedia().then((media) => {
+      const fee = Number(media.delivery_fee);
+      setDeliveryFee(Number.isFinite(fee) ? fee : FALLBACK_DELIVERY_FEE);
     });
   }, []);
   const [fields, setFields] = useState<FormFields>(emptyFields);
@@ -52,7 +65,7 @@ export default function LandingOrderForm() {
 
   const selectedProduct = variants.find((p) => p.id === productId) ?? variants[0];
   const subtotal = useMemo(() => selectedProduct.price * quantity, [selectedProduct, quantity]);
-  const total = subtotal + DELIVERY_FEE;
+  const total = subtotal + deliveryFee;
 
   const setField = (key: keyof FormFields, value: string) => {
     setFields((f) => ({ ...f, [key]: value }));
@@ -87,7 +100,7 @@ export default function LandingOrderForm() {
         quantity,
         unit_price: selectedProduct.price,
         subtotal,
-        delivery_fee: DELIVERY_FEE,
+        delivery_fee: deliveryFee,
         total,
         customer_name: fields.name.trim(),
         customer_phone: fields.phone.trim(),
@@ -161,14 +174,22 @@ export default function LandingOrderForm() {
                       <button
                         type="button"
                         key={p.id}
-                        onClick={() => setProductId(p.id)}
+                        disabled={!p.available}
+                        onClick={() => p.available && setProductId(p.id)}
                         className={cn(
-                          "btn-focus flex items-center gap-3 rounded-2xl border-2 p-3 text-left transition-colors duration-300",
-                          productId === p.id
-                            ? "border-[#0f3b38] bg-[#0f3b38]/5"
-                            : "border-ink/10 hover:border-ink/25"
+                          "btn-focus relative flex items-center gap-3 rounded-2xl border-2 p-3 text-left transition-colors duration-300",
+                          !p.available
+                            ? "cursor-not-allowed border-ink/10 opacity-50"
+                            : productId === p.id
+                              ? "border-[#0f3b38] bg-[#0f3b38]/5"
+                              : "border-ink/10 hover:border-ink/25"
                         )}
                       >
+                        {!p.available && (
+                          <span className="absolute right-2 top-2 rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-bold text-red-600">
+                            স্টকে নেই
+                          </span>
+                        )}
                         <span
                           className={cn(
                             "flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2",
@@ -303,7 +324,7 @@ export default function LandingOrderForm() {
                       </div>
                       <div className="flex justify-between text-ink/70">
                         <span>ডেলিভারি চার্জ</span>
-                        <span>{formatPrice(DELIVERY_FEE)}</span>
+                        <span>{deliveryFee === 0 ? "ফ্রি" : formatPrice(deliveryFee)}</span>
                       </div>
                       <div className="mt-2 flex justify-between border-t border-ink/10 pt-3 text-xl font-bold text-ink">
                         <span>সর্বমোট</span>
