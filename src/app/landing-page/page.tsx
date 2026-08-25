@@ -9,7 +9,6 @@ import LandingTransformation from "@/components/landing/landing-transformation";
 import LandingReviews from "@/components/landing/landing-reviews";
 import LandingTrust from "@/components/landing/landing-trust";
 import LandingOrderForm from "@/components/landing/landing-order-form";
-import LandingBanner from "@/components/landing/landing-banner";
 import LandingContactBar from "@/components/landing/landing-contact-bar";
 
 const notoSansBengali = Noto_Sans_Bengali({
@@ -44,7 +43,6 @@ export default function LandingPage() {
       <LandingReviews />
       <LandingTrust />
       <LandingOrderForm />
-      <LandingBanner />
       <LandingContactBar />
     </div>
   );

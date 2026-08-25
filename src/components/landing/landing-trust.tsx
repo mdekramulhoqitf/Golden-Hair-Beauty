@@ -15,17 +15,13 @@ const badges = [
 ];
 
 const CERTIFIED_KEYS = ["certified_1", "certified_2", "certified_3", "certified_4"];
-const FALLBACK_CERTIFIED = Object.fromEntries(
-  MEDIA_KEYS.filter((k) => CERTIFIED_KEYS.includes(k.key)).map((k) => [k.key, k.fallback])
-);
+const FALLBACKS = Object.fromEntries(MEDIA_KEYS.map((k) => [k.key, k.fallback]));
 
 export default function LandingTrust() {
-  const [certified, setCertified] = useState(FALLBACK_CERTIFIED);
+  const [media, setMedia] = useState(FALLBACKS);
 
   useEffect(() => {
-    fetchSiteMedia().then((media) =>
-      setCertified(Object.fromEntries(CERTIFIED_KEYS.map((k) => [k, media[k]])))
-    );
+    fetchSiteMedia().then(setMedia);
   }, []);
 
   return (
@@ -48,26 +44,25 @@ export default function LandingTrust() {
 
           <div className="mt-6 grid grid-cols-4 gap-3 sm:gap-5">
             {CERTIFIED_KEYS.map((key) => (
-              <div
-                key={key}
-                className="flex aspect-square items-center justify-center rounded-full border border-ink/10 bg-white p-3 shadow-sm"
-              >
-                <div className="relative h-full w-full">
-                  <Image src={certified[key]} alt="সার্টিফিকেশন" fill sizes="80px" className="object-contain" />
-                </div>
+              <div key={key} className="relative aspect-square w-full">
+                <Image
+                  src={media[key]}
+                  alt="সার্টিফিকেশন"
+                  fill
+                  sizes="80px"
+                  className={`object-contain ${key === "certified_2" ? "scale-125" : ""}`}
+                />
               </div>
             ))}
           </div>
         </Reveal>
 
-        <Reveal delay={0.15} className="overflow-x-auto">
+        <Reveal delay={0.15} className="self-start overflow-x-auto lg:mt-14">
           <h2 className="whitespace-nowrap font-serif text-xl leading-tight text-ink sm:text-4xl">
-            আস্থা ও বিশ্বাসে Golden Hair-এর অর্জনসমূহ
+            {media.trust_heading}
           </h2>
           <p className="mt-5 max-w-[36rem] text-xl leading-relaxed text-ink/60 sm:text-2xl">
-            সারা বাংলাদেশে হাজারো গ্রাহকের আস্থায় গড়ে ওঠা Golden Hair — প্রতিটি পণ্য
-            যত্নসহকারে তৈরি এবং যাচাইকৃত গ্রাহক রিভিউয়ে সমর্থিত। নিরাপদ পেমেন্ট ও
-            ক্যাশ অন ডেলিভারি সুবিধায় নিশ্চিন্তে অর্ডার করুন।
+            {media.trust_paragraph}
           </p>
         </Reveal>
       </div>

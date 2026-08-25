@@ -7,23 +7,27 @@ import Reveal from "@/components/reveal";
 import { fetchSiteMedia } from "@/data/site-media";
 import { MEDIA_KEYS } from "@/data/media-keys";
 
-const changes = [
-  "চুল পড়া বন্ধ হবে শতভাগ ইনশাআল্লাহ।",
-  "স্ক্যাল্প ও চুলের যাবতীয় সমস্যা দূর হবে।",
-  "ফিরে পাবেন হারানো চুলের রাজকীয় সৌন্দর্য।",
-  "ফিরে পাবেন আপনার হারিয়ে যাওয়া আত্মবিশ্বাস।",
-  "হতাশা, দুশ্চিন্তা থেকে মুক্ত হয়ে ফিরে পাবেন মানসিক প্রশান্তি।",
-  "আপনার ভেতর ফুটে উঠবে তারুণ্য ও কৈশোরের এক প্রতিচ্ছবি।",
-  "সবার সামনে নিজেকে উপস্থাপন করবে আরো বেশি আত্মবিশ্বাসী।",
-];
-
 const FALLBACK_IMAGE = MEDIA_KEYS.find((k) => k.key === "transformation_image")!.fallback;
+const FALLBACK_HEADING = MEDIA_KEYS.find((k) => k.key === "transformation_heading")!.fallback;
+const FALLBACK_LIST = JSON.parse(
+  MEDIA_KEYS.find((k) => k.key === "transformation_list")!.fallback
+) as string[];
 
 export default function LandingTransformation() {
   const [image, setImage] = useState(FALLBACK_IMAGE);
+  const [heading, setHeading] = useState(FALLBACK_HEADING);
+  const [changes, setChanges] = useState<string[]>(FALLBACK_LIST);
 
   useEffect(() => {
-    fetchSiteMedia().then((media) => setImage(media.transformation_image));
+    fetchSiteMedia().then((media) => {
+      setImage(media.transformation_image);
+      setHeading(media.transformation_heading);
+      try {
+        setChanges(JSON.parse(media.transformation_list));
+      } catch {
+        // keep fallback list
+      }
+    });
   }, []);
 
   return (
@@ -31,7 +35,7 @@ export default function LandingTransformation() {
       <div className="container-premium">
         <Reveal>
           <h2 className="text-balance text-3xl font-bold leading-snug text-white sm:text-4xl lg:text-5xl">
-            <span className="text-[#f6a623]">Hair Booster</span> ব্যবহারের পর আপনার পরিবর্তন সমূহ:
+            {heading}
           </h2>
         </Reveal>
 
@@ -52,7 +56,7 @@ export default function LandingTransformation() {
               </ul>
               <a
                 href="#order"
-                className="btn-focus mt-8 inline-flex items-center gap-2 rounded-full bg-gold-gradient px-8 py-4 text-sm font-semibold text-[#0f3b38] shadow-gold-glow transition-transform duration-300 hover:scale-[1.03] sm:text-base"
+                className="btn-focus mt-8 inline-flex items-center gap-2 rounded-full bg-[#99CA3B] px-8 py-4 text-sm font-semibold text-[#0f3b38] shadow-lg shadow-black/20 transition-transform duration-300 hover:scale-[1.03] sm:text-base"
               >
                 অর্ডার করুন
                 <ShoppingCart size={18} strokeWidth={2} />

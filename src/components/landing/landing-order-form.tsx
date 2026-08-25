@@ -326,7 +326,7 @@ export default function LandingOrderForm() {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="btn-focus mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#111813] py-4 text-lg font-bold text-white shadow-lg shadow-black/20 transition-all duration-300 hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100"
+                      className="btn-focus mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#FAAD19] py-4 text-lg font-bold text-[#0f3b38] shadow-lg shadow-black/20 transition-all duration-300 hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100"
                     >
                       {submitting ? (
                         <>

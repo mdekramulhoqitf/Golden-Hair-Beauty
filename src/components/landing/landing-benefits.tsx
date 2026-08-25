@@ -7,33 +7,40 @@ import Reveal from "@/components/reveal";
 import { fetchSiteMedia } from "@/data/site-media";
 import { MEDIA_KEYS } from "@/data/media-keys";
 
-const benefits = [
-  "চুল পড়া বন্ধ করে চুলের গোড়া মজবুত করে।",
-  "স্ক্যাল্পের খুশকি দূর করে ও চুলকানি কমায়।",
-  "চুলের ড্যামেজ হওয়া প্রতিরোধ করে।",
-  "স্ক্যাল্প পরিষ্কার করে নতুন চুল গজাতে সহায়তা করে।",
-  "ফলিকলে পুষ্টি যোগায়, স্ক্যাল্পে রক্ত সঞ্চালন বৃদ্ধি করে।",
-];
-
 const FALLBACK_IMAGE = MEDIA_KEYS.find((k) => k.key === "benefits_image")!.fallback;
+const FALLBACK_HEADING = MEDIA_KEYS.find((k) => k.key === "benefits_heading")!.fallback;
+const FALLBACK_LIST = JSON.parse(MEDIA_KEYS.find((k) => k.key === "benefits_list")!.fallback) as string[];
 
 export default function LandingBenefits() {
   const [image, setImage] = useState(FALLBACK_IMAGE);
+  const [heading, setHeading] = useState(FALLBACK_HEADING);
+  const [benefits, setBenefits] = useState<string[]>(FALLBACK_LIST);
 
   useEffect(() => {
-    fetchSiteMedia().then((media) => setImage(media.benefits_image));
+    fetchSiteMedia().then((media) => {
+      setImage(media.benefits_image);
+      setHeading(media.benefits_heading);
+      try {
+        setBenefits(JSON.parse(media.benefits_list));
+      } catch {
+        // keep fallback list
+      }
+    });
   }, []);
 
   return (
     <section className="bg-[#0f3b38] py-16 sm:py-20">
       <div className="container-premium">
-        <div className="grid grid-cols-1 items-stretch gap-10 lg:grid-cols-2 lg:gap-16">
+        <Reveal>
+          <h2 className="text-balance text-3xl font-bold leading-snug text-white sm:text-4xl lg:text-5xl">
+            {heading}
+          </h2>
+        </Reveal>
+
+        <div className="mt-10 grid grid-cols-1 items-stretch gap-10 lg:grid-cols-2 lg:gap-16">
           <Reveal>
             <div className="flex h-full flex-col justify-between">
               <div>
-                <h2 className="mb-6 w-full overflow-hidden whitespace-nowrap text-3xl font-bold text-white sm:text-4xl">
-                  Hair Booster-ব্যবহারের উপকারিতা:
-                </h2>
                 <ul className="flex flex-col gap-6">
                   {benefits.map((b, i) => (
                     <li key={i} className="flex items-center gap-3">
@@ -49,7 +56,7 @@ export default function LandingBenefits() {
               </div>
               <a
                 href="#order"
-                className="btn-focus mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-gold-gradient px-8 py-4 text-sm font-semibold text-[#0f3b38] shadow-gold-glow transition-transform duration-300 hover:scale-[1.03] sm:text-base"
+                className="btn-focus mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-[#99CA3B] px-8 py-4 text-sm font-semibold text-[#0f3b38] shadow-lg shadow-black/20 transition-transform duration-300 hover:scale-[1.03] sm:text-base"
               >
                 অর্ডার করুন
                 <ShoppingCart size={18} strokeWidth={2} />

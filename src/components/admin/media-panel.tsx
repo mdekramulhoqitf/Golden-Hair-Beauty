@@ -80,6 +80,46 @@ export default function MediaPanel() {
                       সেভ করুন
                     </button>
                   </div>
+                ) : mediaKey.type === "text" ? (
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                    <input
+                      type="text"
+                      className="admin-input flex-1"
+                      value={values[mediaKey.key] ?? ""}
+                      onChange={(e) => setValues((prev) => ({ ...prev, [mediaKey.key]: e.target.value }))}
+                    />
+                    <button
+                      onClick={() => saveValue(mediaKey.key, values[mediaKey.key] ?? "")}
+                      className="admin-btn-primary shrink-0"
+                    >
+                      সেভ করুন
+                    </button>
+                  </div>
+                ) : mediaKey.type === "list" ? (
+                  <div className="flex flex-col gap-2">
+                    <textarea
+                      className="admin-input min-h-32"
+                      value={(() => {
+                        try {
+                          return (JSON.parse(values[mediaKey.key] || "[]") as string[]).join("\n");
+                        } catch {
+                          return "";
+                        }
+                      })()}
+                      onChange={(e) =>
+                        setValues((prev) => ({
+                          ...prev,
+                          [mediaKey.key]: JSON.stringify(e.target.value.split("\n")),
+                        }))
+                      }
+                    />
+                    <button
+                      onClick={() => saveValue(mediaKey.key, values[mediaKey.key] ?? "[]")}
+                      className="admin-btn-primary w-fit"
+                    >
+                      সেভ করুন
+                    </button>
+                  </div>
                 ) : (
                   <div className="flex items-center gap-4">
                     {values[mediaKey.key] ? (

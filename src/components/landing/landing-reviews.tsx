@@ -48,15 +48,15 @@ export default function LandingReviews() {
 
         <div className="relative">
           <div className="overflow-hidden" ref={emblaRef}>
-            <div className="-ml-5 flex">
+            <div className="-ml-16 flex">
               {testimonials.map((t) => (
                 <div
                   key={t.id}
-                  className="min-w-0 shrink-0 grow-0 basis-[82%] pl-5 sm:basis-[46%] lg:basis-[25%]"
+                  className="min-w-0 shrink-0 grow-0 basis-[82%] pl-16 sm:basis-[46%] lg:basis-1/3"
                 >
-                  <div className="flex h-full flex-col rounded-2xl bg-[#fbf3e2] p-6 shadow-lg shadow-black/20">
+                  <div className="flex h-full flex-col rounded-2xl bg-[#fbf3e2] p-5 shadow-lg shadow-black/20">
                     {t.media?.type === "image" && (
-                      <div className="relative -mx-6 -mt-6 mb-4 aspect-[4/3] overflow-hidden rounded-t-2xl">
+                      <div className="relative -mx-5 -mt-5 mb-4 aspect-[4/3] overflow-hidden rounded-t-2xl">
                         <Image
                           src={t.media.src}
                           alt={`${t.name} এর রিভিউ`}
@@ -67,7 +67,7 @@ export default function LandingReviews() {
                       </div>
                     )}
                     {t.media?.type === "video" && (
-                      <div className="relative -mx-6 -mt-6 mb-4 aspect-[4/3] overflow-hidden rounded-t-2xl bg-ink">
+                      <div className="relative -mx-5 -mt-5 mb-4 aspect-[4/3] overflow-hidden rounded-t-2xl bg-ink">
                         <video
                           src={t.media.src}
                           poster={t.media.poster}

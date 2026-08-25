@@ -46,7 +46,7 @@ export default function Header() {
     };
   }, [mobileOpen]);
 
-  if (pathname?.startsWith("/admin")) return null;
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/landing-page")) return null;
 
   return (
     <>

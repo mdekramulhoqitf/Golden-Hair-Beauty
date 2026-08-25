@@ -47,7 +47,7 @@ export default function Footer() {
     setEmail("");
   };
 
-  if (pathname?.startsWith("/admin")) return null;
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/landing-page")) return null;
 
   return (
     <footer className="relative overflow-hidden bg-plum-gradient text-cream">
