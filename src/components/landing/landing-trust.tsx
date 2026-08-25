@@ -1,8 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { Award, BadgeCheck, Leaf, ShieldCheck } from "lucide-react";
 import Reveal from "@/components/reveal";
+import { fetchSiteMedia } from "@/data/site-media";
+import { MEDIA_KEYS } from "@/data/media-keys";
 
 const badges = [
   { icon: Leaf, label: "প্রিমিয়াম উপাদানে তৈরি" },
@@ -11,14 +14,20 @@ const badges = [
   { icon: Award, label: "ক্যাশ অন ডেলিভারি সুবিধা" },
 ];
 
-const certifiedImages = [
-  "/images/certified/ChatGPT Image Aug 21, 2026, 09_52_09 PM.png",
-  "/images/certified/ChatGPT Image Aug 21, 2026, 10_21_14 PM.png",
-  "/images/certified/ChatGPT Image Aug 21, 2026, 10_36_39 AM.png",
-  "/images/certified/ChatGPT Image Aug 21, 2026, 11_04_25 AM.png",
-];
+const CERTIFIED_KEYS = ["certified_1", "certified_2", "certified_3", "certified_4"];
+const FALLBACK_CERTIFIED = Object.fromEntries(
+  MEDIA_KEYS.filter((k) => CERTIFIED_KEYS.includes(k.key)).map((k) => [k.key, k.fallback])
+);
 
 export default function LandingTrust() {
+  const [certified, setCertified] = useState(FALLBACK_CERTIFIED);
+
+  useEffect(() => {
+    fetchSiteMedia().then((media) =>
+      setCertified(Object.fromEntries(CERTIFIED_KEYS.map((k) => [k, media[k]])))
+    );
+  }, []);
+
   return (
     <section className="bg-[#fbf3e2] py-16 sm:py-20">
       <div className="container-premium grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
@@ -38,13 +47,13 @@ export default function LandingTrust() {
           </div>
 
           <div className="mt-6 grid grid-cols-4 gap-3 sm:gap-5">
-            {certifiedImages.map((src) => (
+            {CERTIFIED_KEYS.map((key) => (
               <div
-                key={src}
+                key={key}
                 className="flex aspect-square items-center justify-center rounded-full border border-ink/10 bg-white p-3 shadow-sm"
               >
                 <div className="relative h-full w-full">
-                  <Image src={src} alt="সার্টিফিকেশন" fill sizes="80px" className="object-contain" />
+                  <Image src={certified[key]} alt="সার্টিফিকেশন" fill sizes="80px" className="object-contain" />
                 </div>
               </div>
             ))}

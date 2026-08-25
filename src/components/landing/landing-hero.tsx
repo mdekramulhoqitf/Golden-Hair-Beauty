@@ -1,52 +1,17 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { ShoppingCart } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Reveal from "@/components/reveal";
-
-const SLIDESHOW_IMAGES = [
-  { src: "/images/item/hair_boster/hair booster (1).png", width: 1023, height: 1537 },
-  { src: "/images/item/hair_boster/hair booster (2).png", width: 1023, height: 1537 },
-  { src: "/images/item/hair_boster/hair booster (3).png", width: 1023, height: 1537 },
-  { src: "/images/item/hair_boster/hair booster (4).png", width: 1122, height: 1402 },
-  { src: "/images/item/hair_boster/hair booster (5).png", width: 1023, height: 1537 },
-];
-
-const CLONE_COUNT = 2;
-const LOOP_IMAGES = [
-  ...SLIDESHOW_IMAGES.slice(-CLONE_COUNT),
-  ...SLIDESHOW_IMAGES,
-  ...SLIDESHOW_IMAGES.slice(0, CLONE_COUNT),
-];
-const START_STEP = CLONE_COUNT;
-const RESET_STEP = CLONE_COUNT + SLIDESHOW_IMAGES.length - 1;
+import YoutubeEmbed from "@/components/youtube-embed";
+import { fetchSiteMedia } from "@/data/site-media";
 
 export default function LandingHero() {
-  const [step, setStep] = useState(START_STEP);
-  const instantRef = useRef(false);
-  const instant = instantRef.current;
+  const [videoId, setVideoId] = useState("");
 
   useEffect(() => {
-    instantRef.current = false;
-  }, [step]);
-
-  useEffect(() => {
-    if (step === RESET_STEP) {
-      const t = setTimeout(() => {
-        instantRef.current = true;
-        setStep(step - SLIDESHOW_IMAGES.length);
-      }, 1450);
-      return () => clearTimeout(t);
-    }
-  }, [step]);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setStep((prev) => prev + 1);
-    }, 3000);
-    return () => clearInterval(timer);
+    fetchSiteMedia().then((media) => setVideoId(media.hero_video_id ?? ""));
   }, []);
 
   return (
@@ -60,45 +25,18 @@ export default function LandingHero() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.1} className="w-full">
-          <motion.div
-            initial={{ scale: 0.96, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full overflow-hidden"
-            style={{
-              maskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
-            }}
-          >
+        {videoId && (
+          <Reveal delay={0.1} className="w-full max-w-xl">
             <motion.div
-              animate={{ x: `-${step * (100 / LOOP_IMAGES.length)}%` }}
-              transition={instant ? { duration: 0 } : { duration: 1.4, ease: "linear" }}
-              className="flex"
-              style={{ width: `${(LOOP_IMAGES.length / 3) * 100}%` }}
+              initial={{ scale: 0.96, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
-              {LOOP_IMAGES.map((image, i) => (
-                <div
-                  key={i}
-                  className="px-1.5"
-                  style={{ width: `${100 / LOOP_IMAGES.length}%` }}
-                >
-                  <div className="relative aspect-[9/16] w-full overflow-hidden rounded-2xl">
-                    <Image
-                      src={image.src}
-                      alt="Goldenhair সালফেট ফ্রি শ্যাম্পু, হেয়ার বুস্টার ও গ্রোথ সিরাম"
-                      fill
-                      priority={i === START_STEP}
-                      sizes="(max-width: 640px) 33vw, 200px"
-                      className="rounded-2xl object-cover"
-                    />
-                  </div>
-                </div>
-              ))}
+              <YoutubeEmbed videoIdOrUrl={videoId} className="shadow-xl shadow-black/20" />
             </motion.div>
-          </motion.div>
-        </Reveal>
+          </Reveal>
+        )}
 
         <Reveal delay={0.18}>
           <p className="w-full overflow-x-auto text-lg leading-relaxed text-[#1c1c1c]/80 sm:text-2xl">

@@ -1,7 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import Reveal from "@/components/reveal";
+import { fetchSiteMedia } from "@/data/site-media";
+import { MEDIA_KEYS } from "@/data/media-keys";
 
 const stepLines = [
   "রাতে ঘুমানোর পূর্বে মাথার ত্বকে ৭-৮বার স্প্রে করতে হবে।",
@@ -11,7 +14,15 @@ const stepLines = [
   "ভালো ফলাফলের জন্য সপ্তাহে ৫-৬ দিন ব্যবহার উত্তম।",
 ];
 
+const FALLBACK_IMAGE = MEDIA_KEYS.find((k) => k.key === "how_to_use_image")!.fallback;
+
 export default function LandingHowToUse() {
+  const [image, setImage] = useState(FALLBACK_IMAGE);
+
+  useEffect(() => {
+    fetchSiteMedia().then((media) => setImage(media.how_to_use_image));
+  }, []);
+
   return (
     <section className="bg-[#fbf3e2] py-12 sm:py-16">
       <div className="container-premium">
@@ -21,7 +32,7 @@ export default function LandingHowToUse() {
               <div className="absolute inset-0 -z-10 scale-90 rounded-full bg-gradient-to-b from-gold-200/50 to-transparent blur-3xl" />
               <div className="relative h-[440px] w-[203px] sm:h-[640px] sm:w-[294px]">
                 <Image
-                  src="/images/hero-products/Booster.png"
+                  src={image}
                   alt="Goldenhair Hair Booster"
                   fill
                   sizes="(max-width: 640px) 203px, 294px"

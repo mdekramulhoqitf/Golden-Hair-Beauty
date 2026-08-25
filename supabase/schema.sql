@@ -107,3 +107,20 @@ create policy "admin update orders" on public.orders
 drop policy if exists "admin delete orders" on public.orders;
 create policy "admin delete orders" on public.orders
   for delete to authenticated using (true);
+
+-- Generic key/value store for editable site images and the hero video link.
+create table if not exists public.site_media (
+  key text primary key,
+  value text not null default '',
+  updated_at timestamptz not null default now()
+);
+
+alter table public.site_media enable row level security;
+
+drop policy if exists "public read site_media" on public.site_media;
+create policy "public read site_media" on public.site_media
+  for select using (true);
+
+drop policy if exists "admin write site_media" on public.site_media;
+create policy "admin write site_media" on public.site_media
+  for all to authenticated using (true) with check (true);

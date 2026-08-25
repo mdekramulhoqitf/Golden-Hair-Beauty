@@ -1,8 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { Check, ShoppingCart } from "lucide-react";
 import Reveal from "@/components/reveal";
+import { fetchSiteMedia } from "@/data/site-media";
+import { MEDIA_KEYS } from "@/data/media-keys";
 
 const changes = [
   "চুল পড়া বন্ধ হবে শতভাগ ইনশাআল্লাহ।",
@@ -14,7 +17,15 @@ const changes = [
   "সবার সামনে নিজেকে উপস্থাপন করবে আরো বেশি আত্মবিশ্বাসী।",
 ];
 
+const FALLBACK_IMAGE = MEDIA_KEYS.find((k) => k.key === "transformation_image")!.fallback;
+
 export default function LandingTransformation() {
+  const [image, setImage] = useState(FALLBACK_IMAGE);
+
+  useEffect(() => {
+    fetchSiteMedia().then((media) => setImage(media.transformation_image));
+  }, []);
+
   return (
     <section className="bg-[#0f3b38] py-16 sm:py-20">
       <div className="container-premium">
@@ -52,7 +63,7 @@ export default function LandingTransformation() {
           <Reveal delay={0.15} className="lg:-mt-16">
             <div className="relative aspect-[2/3] w-full max-w-[360px] overflow-hidden rounded-2xl shadow-xl shadow-black/30 lg:ml-auto">
               <Image
-                src="/images/item/hair_boster/hair booster (4).png"
+                src={image}
                 alt="Golden Hair Booster ব্যবহারের পর পরিবর্তন"
                 fill
                 sizes="(max-width: 1024px) 90vw, 380px"

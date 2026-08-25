@@ -1,8 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { Check, ShoppingCart } from "lucide-react";
 import Reveal from "@/components/reveal";
+import { fetchSiteMedia } from "@/data/site-media";
+import { MEDIA_KEYS } from "@/data/media-keys";
 
 const benefits = [
   "চুল পড়া বন্ধ করে চুলের গোড়া মজবুত করে।",
@@ -12,7 +15,15 @@ const benefits = [
   "ফলিকলে পুষ্টি যোগায়, স্ক্যাল্পে রক্ত সঞ্চালন বৃদ্ধি করে।",
 ];
 
+const FALLBACK_IMAGE = MEDIA_KEYS.find((k) => k.key === "benefits_image")!.fallback;
+
 export default function LandingBenefits() {
+  const [image, setImage] = useState(FALLBACK_IMAGE);
+
+  useEffect(() => {
+    fetchSiteMedia().then((media) => setImage(media.benefits_image));
+  }, []);
+
   return (
     <section className="bg-[#0f3b38] py-16 sm:py-20">
       <div className="container-premium">
@@ -49,7 +60,7 @@ export default function LandingBenefits() {
           <Reveal delay={0.15}>
             <div className="relative aspect-[1023/1537] w-full max-w-sm overflow-hidden rounded-2xl shadow-xl shadow-black/30 lg:ml-auto">
               <Image
-                src="/images/lifestyle/hair-booster-lifestyle.png"
+                src={image}
                 alt="Goldenhair Hair Booster ব্যবহারের দৃশ্য"
                 fill
                 sizes="(max-width: 1024px) 90vw, 380px"
