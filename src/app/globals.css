@@ -12,9 +12,11 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
+  overflow-x: hidden;
   background-color: #fdfbf7;
   color: #171319;
   font-feature-settings: "ss01" on, "ss02" on;

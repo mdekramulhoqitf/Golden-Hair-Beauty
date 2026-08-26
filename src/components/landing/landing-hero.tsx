@@ -19,15 +19,15 @@ export default function LandingHero() {
   }, []);
 
   return (
-    <section className="relative bg-[#fbf3e2] px-4 pb-10 pt-20 sm:pt-16">
-      <div className="absolute left-12 top-16 z-10 sm:left-14">
-        <Logo />
+    <section className="relative bg-[#fbf3e2] px-4 pb-10 pt-6 sm:pt-16">
+      <div className="relative z-10 mb-4 flex justify-start sm:absolute sm:left-14 sm:top-16 sm:mb-0">
+        <Logo href="/landing-page" />
       </div>
 
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 text-center">
         <Reveal className="w-full">
-          <div className="mx-auto w-full max-w-3xl overflow-x-auto rounded-2xl bg-[#0f3b38] px-5 py-4 shadow-lg shadow-black/10">
-            <h1 className="whitespace-nowrap text-[13px] font-bold leading-snug text-white sm:text-2xl">
+          <div className="mx-auto w-full max-w-3xl rounded-2xl bg-[#0f3b38] px-5 py-4 shadow-lg shadow-black/10">
+            <h1 className="text-balance text-base font-bold leading-snug text-white sm:text-2xl">
               {media.hero_headline}
             </h1>
           </div>
@@ -47,8 +47,8 @@ export default function LandingHero() {
         )}
 
         <Reveal delay={0.18}>
-          <p className="w-full overflow-x-auto text-lg leading-relaxed text-[#1c1c1c]/80 sm:text-2xl">
-            <span className="block whitespace-nowrap">{media.hero_description_line1}</span>
+          <p className="w-full text-balance text-lg leading-relaxed text-[#1c1c1c]/80 sm:text-2xl">
+            <span className="block">{media.hero_description_line1}</span>
             {media.hero_description_line2}
           </p>
         </Reveal>

@@ -6,7 +6,7 @@ export default function LandingCopyright() {
         <p className="text-xs text-cream/40">
           &copy; {new Date().getFullYear()} Goldenhair Luxury Hair &amp; Beauty. All rights reserved.
         </p>
-        <div className="flex items-center gap-3 text-[10px] uppercase tracking-widest text-cream/40">
+        <div className="flex flex-wrap items-center justify-center gap-3 text-[10px] uppercase tracking-widest text-cream/40">
           <span className="rounded border border-cream/15 px-2 py-1">bKash</span>
           <span className="rounded border border-cream/15 px-2 py-1">Nagad</span>
           <span className="rounded border border-cream/15 px-2 py-1">COD</span>

@@ -30,31 +30,31 @@ export default function LandingHowToUse() {
   return (
     <section className="bg-[#fbf3e2] py-12 sm:py-16">
       <div className="container-premium">
-        <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 sm:flex-row sm:items-end sm:gap-2">
+        <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 md:flex-row md:items-end md:gap-6">
           <Reveal delay={0.1} className="shrink-0">
             <div className="relative">
               <div className="absolute inset-0 -z-10 scale-90 rounded-full bg-gradient-to-b from-gold-200/50 to-transparent blur-3xl" />
-              <div className="relative h-[440px] w-[203px] sm:h-[640px] sm:w-[294px]">
+              <div className="relative h-[360px] w-[166px] sm:h-[440px] sm:w-[203px] md:h-[640px] md:w-[294px]">
                 <Image
                   src={image}
                   alt="Goldenhair Hair Booster"
                   fill
-                  sizes="(max-width: 640px) 203px, 294px"
+                  sizes="(max-width: 768px) 203px, 294px"
                   className="object-contain drop-shadow-2xl"
                 />
               </div>
             </div>
           </Reveal>
 
-          <Reveal delay={0.2} className="w-full sm:mb-[38px]">
+          <Reveal delay={0.2} className="w-full md:mb-[38px]">
             <h2 className="text-2xl font-bold text-ink sm:text-3xl">{heading}</h2>
-            <p className="mt-4 inline-block max-w-full overflow-x-auto space-y-4 rounded-2xl border-2 border-dashed border-gold-400 bg-white p-7 text-2xl leading-relaxed text-ink/80 sm:space-y-5 sm:p-9 sm:text-3xl">
+            <div className="mt-4 space-y-4 rounded-2xl border-2 border-dashed border-gold-400 bg-white p-5 text-lg leading-relaxed text-ink/80 sm:p-7 sm:text-xl sm:space-y-5 md:p-9 md:text-3xl">
               {stepLines.map((line, i) => (
-                <span key={i} className="block whitespace-nowrap">
+                <p key={i} className="text-balance">
                   {line}
-                </span>
+                </p>
               ))}
-            </p>
+            </div>
           </Reveal>
         </div>
       </div>

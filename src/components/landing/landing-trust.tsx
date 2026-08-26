@@ -32,9 +32,9 @@ export default function LandingTrust() {
             {badges.map((b) => (
               <div
                 key={b.label}
-                className="flex flex-col items-center gap-4 rounded-2xl border border-ink/10 bg-white p-7 text-center shadow-sm sm:p-8"
+                className="flex flex-col items-center gap-3 rounded-2xl border border-ink/10 bg-white p-4 text-center shadow-sm sm:gap-4 sm:p-7 lg:p-8"
               >
-                <b.icon size={40} className="text-green-600" strokeWidth={1.5} />
+                <b.icon size={32} className="shrink-0 text-green-600 sm:h-10 sm:w-10" strokeWidth={1.5} />
                 <span className="text-sm font-medium leading-snug text-ink/70 sm:text-base">
                   {b.label}
                 </span>

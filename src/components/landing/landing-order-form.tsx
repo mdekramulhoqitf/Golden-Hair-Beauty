@@ -252,7 +252,7 @@ export default function LandingOrderForm() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_340px]">
+                <div className="grid grid-cols-1 gap-10 md:grid-cols-[1fr_320px]">
                   <div className="flex flex-col gap-4">
                     <h3 className="text-lg font-bold text-[#f6a623] sm:text-xl">
                       গ্রাহকের তথ্য
