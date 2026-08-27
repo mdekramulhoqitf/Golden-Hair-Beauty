@@ -182,4 +182,41 @@ export const MEDIA_KEYS: MediaKeyDef[] = [
     type: "text",
     fallback: "01787 478 146",
   },
+  {
+    key: "meta_pixel_id",
+    label: "Meta Pixel ID",
+    section: "Pixel ও SEO",
+    type: "text",
+    fallback: "1226401399481159",
+  },
+  {
+    key: "seo_title",
+    label: "SEO টাইটেল",
+    section: "Pixel ও SEO",
+    type: "text",
+    fallback: "Goldenhair — Luxury Hair & Beauty",
+  },
+  {
+    key: "seo_description",
+    label: "SEO বর্ণনা",
+    section: "Pixel ও SEO",
+    type: "text",
+    fallback:
+      "Goldenhair is a premium hair care and beauty brand crafting sulfate-free shampoo, hair boosters and scalp nutrition serums for men & women who expect visibly healthier-looking hair.",
+  },
+  {
+    key: "seo_keywords",
+    label: "SEO কীওয়ার্ড (প্রতি লাইনে একটি)",
+    section: "Pixel ও SEO",
+    type: "list",
+    fallback: JSON.stringify([
+      "Goldenhair",
+      "luxury hair care",
+      "sulfate free shampoo",
+      "hair fall solution",
+      "growth serum",
+      "scalp nutrition",
+      "premium beauty brand Bangladesh",
+    ]),
+  },
 ];

@@ -127,3 +127,22 @@ create policy "public read site_media" on public.site_media
 drop policy if exists "admin write site_media" on public.site_media;
 create policy "admin write site_media" on public.site_media
   for all to authenticated using (true) with check (true);
+
+-- Secret integration settings (API tokens/keys). Never publicly readable —
+-- only the admin dashboard (authenticated) and the backend worker (service
+-- role, bypasses RLS) can read these.
+create table if not exists public.site_secrets (
+  key text primary key,
+  value text not null default '',
+  updated_at timestamptz not null default now()
+);
+
+alter table public.site_secrets enable row level security;
+
+drop policy if exists "admin read site_secrets" on public.site_secrets;
+create policy "admin read site_secrets" on public.site_secrets
+  for select to authenticated using (true);
+
+drop policy if exists "admin write site_secrets" on public.site_secrets;
+create policy "admin write site_secrets" on public.site_secrets
+  for all to authenticated using (true) with check (true);

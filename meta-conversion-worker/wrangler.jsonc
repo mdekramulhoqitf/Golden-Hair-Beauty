@@ -3,9 +3,10 @@
   "name": "goldenhair-meta-conversion",
   "main": "src/index.ts",
   "compatibility_date": "2026-08-27",
+  "compatibility_flags": ["nodejs_compat"],
   "vars": {
-    "META_PIXEL_ID": "1226401399481159",
-    "ALLOWED_ORIGIN": "https://goldenhairbeauty.com"
+    "ALLOWED_ORIGIN": "https://goldenhairbeauty.com",
+    "SUPABASE_URL": "https://smcsmwjttnvchldbomxj.supabase.co"
   },
   "observability": {
     "enabled": true

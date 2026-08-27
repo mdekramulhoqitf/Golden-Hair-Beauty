@@ -1,8 +1,22 @@
-import Script from "next/script";
+"use client";
 
-const PIXEL_ID = "1226401399481159";
+import { useEffect, useState } from "react";
+import Script from "next/script";
+import { fetchSiteMedia } from "@/data/site-media";
+
+const FALLBACK_PIXEL_ID = "1226401399481159";
 
 export default function MetaPixel() {
+  const [pixelId, setPixelId] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchSiteMedia().then((media) => {
+      setPixelId(media.meta_pixel_id || FALLBACK_PIXEL_ID);
+    });
+  }, []);
+
+  if (!pixelId) return null;
+
   return (
     <>
       <Script id="meta-pixel" strategy="afterInteractive">
@@ -15,7 +29,7 @@ export default function MetaPixel() {
           t.src=v;s=b.getElementsByTagName(e)[0];
           s.parentNode.insertBefore(t,s)}(window, document,'script',
           'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', '${PIXEL_ID}');
+          fbq('init', '${pixelId}');
           fbq('track', 'PageView');
         `}
       </Script>
@@ -25,7 +39,7 @@ export default function MetaPixel() {
           height="1"
           width="1"
           style={{ display: "none" }}
-          src={`https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1`}
+          src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
           alt=""
         />
       </noscript>

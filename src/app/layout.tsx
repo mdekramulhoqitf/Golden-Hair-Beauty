@@ -10,6 +10,7 @@ import Footer from "@/components/footer";
 import CartDrawer from "@/components/cart-drawer";
 import QuickViewModal from "@/components/quick-view-modal";
 import ScrollProgress from "@/components/scroll-progress";
+import { fetchSiteMedia } from "@/data/site-media";
 
 const barlow = Barlow({
   subsets: ["latin"],
@@ -28,48 +29,51 @@ const hindSiliguri = Hind_Siliguri({
 
 const siteUrl = "https://goldenhairbeauty.com";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "Goldenhair — Luxury Hair & Beauty",
-    template: "%s | Goldenhair",
-  },
-  description:
-    "Goldenhair is a premium hair care and beauty brand crafting sulfate-free shampoo, hair boosters and scalp nutrition serums for men & women who expect visibly healthier-looking hair.",
-  keywords: [
-    "Goldenhair",
-    "luxury hair care",
-    "sulfate free shampoo",
-    "hair fall solution",
-    "growth serum",
-    "scalp nutrition",
-    "premium beauty brand Bangladesh",
-  ],
-  openGraph: {
-    title: "Goldenhair — Luxury Hair & Beauty",
-    description:
-      "Premium hair care crafted for visibly healthier, stronger, shinier-looking hair. For men & women.",
-    url: siteUrl,
-    siteName: "Goldenhair",
-    images: [{ url: "/images/lifestyle/banner.png", width: 1200, height: 630 }],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Goldenhair — Luxury Hair & Beauty",
-    description:
-      "Premium hair care crafted for visibly healthier, stronger, shinier-looking hair.",
-    images: ["/images/lifestyle/banner.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  other: {
-    "facebook-domain-verification": "ibm30qxebjhuhfwrtefxa8p21bpy5o",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const media = await fetchSiteMedia();
+  const title = media.seo_title || "Goldenhair — Luxury Hair & Beauty";
+  const description =
+    media.seo_description ||
+    "Goldenhair is a premium hair care and beauty brand crafting sulfate-free shampoo, hair boosters and scalp nutrition serums for men & women who expect visibly healthier-looking hair.";
+  let keywords: string[] = [];
+  try {
+    keywords = JSON.parse(media.seo_keywords || "[]");
+  } catch {
+    keywords = [];
+  }
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title: {
+      default: title,
+      template: "%s | Goldenhair",
+    },
+    description,
+    keywords,
+    openGraph: {
+      title,
+      description,
+      url: siteUrl,
+      siteName: "Goldenhair",
+      images: [{ url: "/images/lifestyle/banner.png", width: 1200, height: 630 }],
+      locale: "en_US",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/images/lifestyle/banner.png"],
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    other: {
+      "facebook-domain-verification": "ibm30qxebjhuhfwrtefxa8p21bpy5o",
+    },
+  };
+}
 
 export default function RootLayout({
   children,

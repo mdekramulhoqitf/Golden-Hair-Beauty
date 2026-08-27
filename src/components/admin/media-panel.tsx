@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getSupabaseClient } from "@/lib/supabase";
 import { MEDIA_KEYS } from "@/data/media-keys";
 
-export default function MediaPanel() {
+export default function MediaPanel({ sections: sectionsFilter }: { sections?: string[] }) {
   const [values, setValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<{ key: string; text: string; error?: boolean } | null>(null);
@@ -52,7 +52,9 @@ export default function MediaPanel() {
 
   if (loading) return <p className="text-ink/60">লোড হচ্ছে...</p>;
 
-  const sections = Array.from(new Set(MEDIA_KEYS.map((k) => k.section)));
+  const sections = Array.from(new Set(MEDIA_KEYS.map((k) => k.section))).filter(
+    (section) => !sectionsFilter || sectionsFilter.includes(section)
+  );
 
   return (
     <div className="flex flex-col gap-8">

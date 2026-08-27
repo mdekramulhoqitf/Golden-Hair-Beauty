@@ -15,7 +15,7 @@ export function trackConversion(
 
   if (!CONVERSION_WORKER_URL) return;
 
-  fetch(CONVERSION_WORKER_URL, {
+  fetch(`${CONVERSION_WORKER_URL}/meta-conversion`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, ShoppingBag, Package, Star, Image as ImageIcon, LogOut } from "lucide-react";
+import { LayoutGrid, ShoppingBag, Package, Star, Image as ImageIcon, Settings, LogOut } from "lucide-react";
 import { getSupabaseClient } from "@/lib/supabase";
 
 const NAV_ITEMS = [
@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/reviews", label: "Reviews", icon: Star },
   { href: "/admin/media", label: "Content", icon: ImageIcon },
+  { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
