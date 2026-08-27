@@ -63,8 +63,8 @@ export default function LandingHero() {
   }, []);
 
   return (
-    <section className="relative bg-[#fbf3e2] px-4 pb-10 pt-6 sm:pt-16">
-      <div className="relative z-10 mb-4 flex justify-start sm:absolute sm:left-14 sm:top-16 sm:mb-0">
+    <section className="relative bg-[#fbf3e2] px-4 pb-10 pt-6 lg:pt-16">
+      <div className="relative z-10 mb-4 flex justify-start lg:absolute lg:left-14 lg:top-16 lg:mb-0">
         <Logo href="/landing-page" />
       </div>
 
