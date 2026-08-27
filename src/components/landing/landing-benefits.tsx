@@ -4,8 +4,10 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Check, ShoppingCart } from "lucide-react";
 import Reveal from "@/components/reveal";
+import FitOneLineText from "@/components/fit-one-line-text";
 import { fetchSiteMedia } from "@/data/site-media";
 import { MEDIA_KEYS } from "@/data/media-keys";
+import { generateEventId, trackConversion } from "@/lib/meta-conversion";
 
 const FALLBACK_IMAGE = MEDIA_KEYS.find((k) => k.key === "benefits_image")!.fallback;
 const FALLBACK_HEADING = MEDIA_KEYS.find((k) => k.key === "benefits_heading")!.fallback;
@@ -15,6 +17,7 @@ export default function LandingBenefits() {
   const [image, setImage] = useState(FALLBACK_IMAGE);
   const [heading, setHeading] = useState(FALLBACK_HEADING);
   const [benefits, setBenefits] = useState<string[]>(FALLBACK_LIST);
+  const [iconSizes, setIconSizes] = useState<number[]>(FALLBACK_LIST.map(() => 32));
 
   useEffect(() => {
     fetchSiteMedia().then((media) => {
@@ -42,20 +45,39 @@ export default function LandingBenefits() {
             <div className="flex h-full flex-col justify-between">
               <div>
                 <ul className="flex flex-col gap-6">
-                  {benefits.map((b, i) => (
-                    <li key={i} className="flex items-center gap-3">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f6a623] text-[#0f3b38]">
-                        <Check size={18} strokeWidth={3} />
-                      </span>
-                      <span className="text-xl leading-relaxed text-white/85 sm:text-2xl">
-                        {b}
-                      </span>
-                    </li>
-                  ))}
+                  {benefits.map((b, i) => {
+                    const iconSize = iconSizes[i] ?? 32;
+                    return (
+                      <li key={i} className="flex min-w-0 items-center gap-3">
+                        <span
+                          className="flex shrink-0 items-center justify-center rounded-full bg-[#f6a623] text-[#0f3b38]"
+                          style={{ height: iconSize, width: iconSize }}
+                        >
+                          <Check size={Math.round(iconSize * 0.55)} strokeWidth={3} />
+                        </span>
+                        <FitOneLineText
+                          text={b}
+                          className="leading-relaxed text-white/85"
+                          maxFontPx={24}
+                          minFontPx={12}
+                          onFontSize={(size) =>
+                            setIconSizes((prev) => {
+                              const value = (size / 24) * 32;
+                              if (prev[i] === value) return prev;
+                              const next = [...prev];
+                              next[i] = value;
+                              return next;
+                            })
+                          }
+                        />
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
               <a
                 href="#order"
+                onClick={() => trackConversion("InitiateCheckout", generateEventId())}
                 className="btn-focus mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-[#99CA3B] px-8 py-4 text-sm font-semibold text-[#0f3b38] shadow-lg shadow-black/20 transition-transform duration-300 hover:scale-[1.03] sm:text-base"
               >
                 অর্ডার করুন

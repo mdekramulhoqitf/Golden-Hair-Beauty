@@ -48,12 +48,8 @@ export default function LandingHowToUse() {
 
           <Reveal delay={0.2} className="w-full md:mb-[38px]">
             <h2 className="text-2xl font-bold text-ink sm:text-3xl">{heading}</h2>
-            <div className="mt-4 space-y-4 rounded-2xl border-2 border-dashed border-gold-400 bg-white p-5 text-lg leading-relaxed text-ink/80 sm:p-7 sm:text-xl sm:space-y-5 md:p-9 md:text-3xl">
-              {stepLines.map((line, i) => (
-                <p key={i} className="text-balance">
-                  {line}
-                </p>
-              ))}
+            <div className="mt-4 whitespace-pre-wrap rounded-2xl border-2 border-dashed border-gold-400 bg-white p-5 text-lg leading-relaxed text-ink/80 sm:p-7 sm:text-xl md:p-9 md:text-3xl">
+              {stepLines.join("\n")}
             </div>
           </Reveal>
         </div>

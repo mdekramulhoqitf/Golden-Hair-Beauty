@@ -2,14 +2,58 @@
 
 import { motion } from "framer-motion";
 import { ShoppingCart } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Reveal from "@/components/reveal";
 import Logo from "@/components/logo";
 import YoutubeEmbed from "@/components/youtube-embed";
 import { fetchSiteMedia } from "@/data/site-media";
 import { MEDIA_KEYS } from "@/data/media-keys";
+import { generateEventId, trackConversion } from "@/lib/meta-conversion";
 
 const FALLBACKS = Object.fromEntries(MEDIA_KEYS.map((k) => [k.key, k.fallback]));
+
+const MAX_HEADLINE_FONT_PX = 24;
+const MIN_HEADLINE_FONT_PX = 10;
+
+function FitOneLineText({ text, className }: { text: string; className?: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLHeadingElement>(null);
+  const [fontSize, setFontSize] = useState(MAX_HEADLINE_FONT_PX);
+
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    const el = textRef.current;
+    if (!container || !el) return;
+
+    const fit = () => {
+      let size = MAX_HEADLINE_FONT_PX;
+      el.style.fontSize = `${size}px`;
+      const containerWidth = container.clientWidth;
+      while (el.scrollWidth > containerWidth && size > MIN_HEADLINE_FONT_PX) {
+        size -= 0.5;
+        el.style.fontSize = `${size}px`;
+      }
+      setFontSize(size);
+    };
+
+    fit();
+    const observer = new ResizeObserver(fit);
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [text]);
+
+  return (
+    <div ref={containerRef} className="w-full overflow-hidden">
+      <h1
+        ref={textRef}
+        className={className}
+        style={{ fontSize, whiteSpace: "nowrap" }}
+      >
+        {text}
+      </h1>
+    </div>
+  );
+}
 
 export default function LandingHero() {
   const [media, setMedia] = useState(FALLBACKS);
@@ -26,10 +70,11 @@ export default function LandingHero() {
 
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 text-center">
         <Reveal className="w-full">
-          <div className="mx-auto w-full max-w-3xl rounded-2xl bg-[#0f3b38] px-5 py-4 shadow-lg shadow-black/10">
-            <h1 className="text-balance text-base font-bold leading-snug text-white sm:text-2xl">
-              {media.hero_headline}
-            </h1>
+          <div className="mx-auto w-full max-w-3xl overflow-hidden rounded-2xl bg-[#0f3b38] px-5 py-4 shadow-lg shadow-black/10">
+            <FitOneLineText
+              text={media.hero_headline}
+              className="font-bold leading-snug text-white"
+            />
           </div>
         </Reveal>
 
@@ -56,6 +101,7 @@ export default function LandingHero() {
         <Reveal delay={0.3}>
           <a
             href="#order"
+            onClick={() => trackConversion("InitiateCheckout", generateEventId())}
             className="btn-focus flex items-center gap-2 rounded-full bg-[#111813] px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-black/20 transition-transform duration-300 hover:scale-[1.03] sm:text-base"
           >
             অর্ডার করুন

@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "goldenhair-meta-conversion",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-27",
+  "vars": {
+    "META_PIXEL_ID": "1226401399481159",
+    "ALLOWED_ORIGIN": "https://goldenhairbeauty.com"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

@@ -20,5 +20,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "studio", "scripts"]
+  "exclude": ["node_modules", "studio", "scripts", "meta-conversion-worker"]
 }

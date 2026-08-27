@@ -10,6 +10,7 @@ import fallbackPackages from "@/data/store/landing-packages.json";
 import { getSupabaseClient } from "@/lib/supabase";
 import { fetchSiteMedia } from "@/data/site-media";
 import { MEDIA_KEYS } from "@/data/media-keys";
+import { generateEventId, trackConversion } from "@/lib/meta-conversion";
 
 const FALLBACK_DELIVERY_FEE = Number(MEDIA_KEYS.find((k) => k.key === "delivery_fee")!.fallback);
 
@@ -117,11 +118,16 @@ export default function LandingOrderForm() {
 
     setSubmitting(false);
     setOrder({ fields, product: selectedProduct.name, total });
-    window.fbq?.("track", "Lead", {
-      content_name: selectedProduct.name,
-      value: total,
-      currency: "BDT",
-    });
+    trackConversion(
+      "Purchase",
+      generateEventId(),
+      {
+        content_name: selectedProduct.name,
+        value: total,
+        currency: "BDT",
+      },
+      fields.phone
+    );
   };
 
   const handleReset = () => {

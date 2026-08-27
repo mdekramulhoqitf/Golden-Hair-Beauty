@@ -6,6 +6,7 @@ import { Check, ShoppingCart } from "lucide-react";
 import Reveal from "@/components/reveal";
 import { fetchSiteMedia } from "@/data/site-media";
 import { MEDIA_KEYS } from "@/data/media-keys";
+import { generateEventId, trackConversion } from "@/lib/meta-conversion";
 
 const FALLBACK_IMAGE = MEDIA_KEYS.find((k) => k.key === "transformation_image")!.fallback;
 const FALLBACK_HEADING = MEDIA_KEYS.find((k) => k.key === "transformation_heading")!.fallback;
@@ -56,6 +57,7 @@ export default function LandingTransformation() {
               </ul>
               <a
                 href="#order"
+                onClick={() => trackConversion("InitiateCheckout", generateEventId())}
                 className="btn-focus mt-8 inline-flex items-center gap-2 rounded-full bg-[#99CA3B] px-8 py-4 text-sm font-semibold text-[#0f3b38] shadow-lg shadow-black/20 transition-transform duration-300 hover:scale-[1.03] sm:text-base"
               >
                 অর্ডার করুন
