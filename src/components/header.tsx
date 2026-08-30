@@ -18,7 +18,7 @@ const NAV_LINKS = [
   { href: "/about", label: "About" },
   { href: "/hair-care", label: "Hair Care" },
   { href: "/contact", label: "Contact" },
-  { href: "/landing-page", label: "Landing Page" },
+  { href: "/hair-booster", label: "Hair Booster" },
 ];
 
 export default function Header() {
@@ -46,7 +46,7 @@ export default function Header() {
     };
   }, [mobileOpen]);
 
-  if (pathname?.startsWith("/admin") || pathname?.startsWith("/landing-page")) return null;
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/hair-booster")) return null;
 
   return (
     <>

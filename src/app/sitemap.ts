@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/about",
     "/hair-care",
     "/contact",
-    "/landing-page",
+    "/hair-booster",
     "/faq",
     "/shipping-returns",
     "/privacy-policy",

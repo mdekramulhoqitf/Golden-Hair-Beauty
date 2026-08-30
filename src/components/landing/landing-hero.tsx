@@ -65,7 +65,7 @@ export default function LandingHero() {
   return (
     <section className="relative bg-[#fbf3e2] px-4 pb-10 pt-6 lg:pt-16">
       <div className="relative z-10 mb-4 flex justify-start lg:absolute lg:left-14 lg:top-16 lg:mb-0">
-        <Logo href="/landing-page" />
+        <Logo href="/hair-booster" />
       </div>
 
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 text-center">
