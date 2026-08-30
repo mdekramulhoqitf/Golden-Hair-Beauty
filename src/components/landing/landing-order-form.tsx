@@ -64,28 +64,43 @@ export default function LandingOrderForm() {
   const [order, setOrder] = useState<{ fields: FormFields; product: string; total: number } | null>(
     null
   );
-  const failedOrderSentRef = useRef(false);
 
   const selectedProduct = variants.find((p) => p.id === productId) ?? variants[0];
   const subtotal = useMemo(() => selectedProduct.price * quantity, [selectedProduct, quantity]);
   const total = subtotal + deliveryFee;
 
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState !== "hidden") return;
-      if (failedOrderSentRef.current || order || !fields.phone.trim()) return;
-      failedOrderSentRef.current = true;
+    if (fields.phone.length < 11) return;
+    const timer = setTimeout(() => {
       pushBizmationFailedOrder({
         name: fields.name.trim() || "Unknown",
         mobile_number: fields.phone.trim(),
         address: [fields.address.trim(), fields.district.trim()].filter(Boolean).join(", "),
         shipping_charge: deliveryFee,
-        items: [{ product_title: selectedProduct.name, price: selectedProduct.price, quantity }],
+        items: [
+          {
+            product_title: selectedProduct.name,
+            price: selectedProduct.price,
+            quantity,
+            attributes: `Weight::${selectedProduct.volume}`,
+          },
+        ],
       });
+    }, 1000); 
+
+    return () => {
+      clearTimeout(timer);
     };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, [fields, order, deliveryFee, quantity, selectedProduct]);
+  }, [
+    fields.name,
+    fields.phone,
+    fields.address,
+    fields.district,
+    deliveryFee,
+    quantity,
+    selectedProduct.name,
+    selectedProduct.volume,
+  ]);
 
   const setField = (key: keyof FormFields, value: string) => {
     setFields((f) => ({ ...f, [key]: value }));
@@ -105,6 +120,7 @@ export default function LandingOrderForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const next = validate();
     setErrors(next);
     if (Object.keys(next).length > 0) return;
@@ -137,24 +153,47 @@ export default function LandingOrderForm() {
 
     setSubmitting(false);
     setOrder({ fields, product: selectedProduct.name, total });
-    pushBizmationOrder({
-      name: fields.name.trim(),
-      mobile_number: fields.phone.trim(),
-      address: [fields.address.trim(), fields.district.trim()].filter(Boolean).join(", "),
-      delivery_charge: deliveryFee,
-      note: fields.notes.trim() || undefined,
-      items: [{ product_title: selectedProduct.name, price: selectedProduct.price, quantity }],
-    });
-    trackConversion(
-      "Purchase",
-      generateEventId(),
-      {
-        content_name: selectedProduct.name,
-        value: total,
-        currency: "BDT",
-      },
-      fields.phone
-    );
+    const res = await pushBizmationOrder({
+        name: fields.name.trim(),
+        mobile_number: fields.phone.trim(),
+        address: [fields.address.trim(), fields.district.trim()]
+          .filter(Boolean)
+          .join(", "),
+        delivery_charge: deliveryFee,
+        note: fields.notes.trim() || undefined,
+        items: [
+          {
+            product_title: selectedProduct.name,
+            price: selectedProduct.price,
+            quantity,
+            attributes: 'Weight::'+selectedProduct.volume,
+          },
+        ],
+      });
+      if (res?.ok && res?.success) {
+        trackConversion(
+          "Purchase",
+          generateEventId(),
+          {
+            content_name: selectedProduct.name,
+            value: total,
+            currency: "BDT",
+          },
+          fields.phone
+        );
+      }else{
+        alert(res?.message)
+      }
+      // trackConversion(
+      //   "Purchase",
+      //   generateEventId(),
+      //   {
+      //     content_name: selectedProduct.name,
+      //     value: total,
+      //     currency: "BDT",
+      //   },
+      //   fields.phone
+      // );
   };
 
   const handleReset = () => {
