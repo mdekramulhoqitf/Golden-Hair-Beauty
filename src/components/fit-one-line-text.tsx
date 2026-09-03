@@ -4,6 +4,8 @@ import { useLayoutEffect, useRef, useState } from "react";
 
 const DEFAULT_MAX_FONT_PX = 24;
 const DEFAULT_MIN_FONT_PX = 10;
+const MOBILE_BREAKPOINT_PX = 640;
+const MOBILE_READABLE_FONT_PX = 17;
 
 export default function FitOneLineText({
   text,
@@ -30,7 +32,25 @@ export default function FitOneLineText({
     if (!container || !el) return;
 
     const fit = () => {
+      if (window.innerWidth < MOBILE_BREAKPOINT_PX) {
+        const size = Math.min(maxFontPx, MOBILE_READABLE_FONT_PX);
+        el.style.whiteSpace = "normal";
+        el.style.fontSize = `${size}px`;
+        el.style.display = "-webkit-box";
+        el.style.setProperty("-webkit-line-clamp", "2");
+        el.style.setProperty("-webkit-box-orient", "vertical");
+        el.style.overflow = "hidden";
+        setFontSize((prev) => (prev === size ? prev : size));
+        onFontSizeRef.current?.(size);
+        return;
+      }
+
       let size = maxFontPx;
+      el.style.whiteSpace = "nowrap";
+      el.style.display = "inline-block";
+      el.style.removeProperty("-webkit-line-clamp");
+      el.style.removeProperty("-webkit-box-orient");
+      el.style.overflow = "visible";
       el.style.fontSize = `${size}px`;
       const containerWidth = container.clientWidth;
       while (el.scrollWidth > containerWidth && size > minFontPx) {
@@ -52,7 +72,7 @@ export default function FitOneLineText({
       <span
         ref={textRef}
         className={className}
-        style={{ fontSize, whiteSpace: "nowrap", display: "inline-block" }}
+        style={{ fontSize, display: "inline-block" }}
       >
         {text}
       </span>

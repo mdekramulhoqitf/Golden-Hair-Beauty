@@ -41,7 +41,7 @@ export default function LandingReviews() {
     <section className="bg-plum py-16 sm:py-20">
       <div className="container-premium">
         <Reveal className="mb-12 text-center">
-          <h2 className="text-balance text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="whitespace-nowrap text-xl font-bold text-white sm:text-4xl">
             ⭐ ⭐ ⭐ কাস্টমার রিভিউ ⭐ ⭐ ⭐
           </h2>
         </Reveal>
