@@ -130,21 +130,28 @@ export default function LandingOrderForm() {
 
     const supabase = getSupabaseClient();
     if (supabase) {
-      const { error } = await supabase.from("orders").insert({
-        package_id: selectedProduct.id,
-        package_name: selectedProduct.name,
-        quantity,
-        unit_price: selectedProduct.price,
-        subtotal,
-        delivery_fee: deliveryFee,
-        total,
-        customer_name: fields.name.trim(),
-        customer_phone: fields.phone.trim(),
-        customer_address: fields.address.trim(),
-        customer_district: fields.district.trim(),
-        notes: fields.notes.trim() || null,
-      });
-      if (error) {
+      try {
+        const { error } = await supabase.from("orders").insert({
+          package_id: selectedProduct.id,
+          package_name: selectedProduct.name,
+          quantity,
+          unit_price: selectedProduct.price,
+          subtotal,
+          delivery_fee: deliveryFee,
+          total,
+          customer_name: fields.name.trim(),
+          customer_phone: fields.phone.trim(),
+          customer_address: fields.address.trim(),
+          customer_district: fields.district.trim(),
+          notes: fields.notes.trim() || null,
+        });
+        if (error) {
+          setSubmitting(false);
+          setSubmitError("দুঃখিত, অর্ডার সাবমিট করতে সমস্যা হয়েছে। আবার চেষ্টা করুন অথবা ফোনে যোগাযোগ করুন।");
+          return;
+        }
+      } catch (err) {
+        console.error("Supabase insert failed:", err);
         setSubmitting(false);
         setSubmitError("দুঃখিত, অর্ডার সাবমিট করতে সমস্যা হয়েছে। আবার চেষ্টা করুন অথবা ফোনে যোগাযোগ করুন।");
         return;
